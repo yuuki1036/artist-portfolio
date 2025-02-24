@@ -1,0 +1,92 @@
+{
+  "rules": {
+    "fileNaming": {
+      "components": "kebab-case.tsx",
+      "pages": "kebab-case.tsx",
+      "utils": "kebab-case.ts",
+      "types": "kebab-case.types.ts",
+      "styles": "kebab-case.css",
+      "tests": "*.test.ts"
+    },
+    "imports": {
+      "order": [
+        "react",
+        "next",
+        "external-libraries",
+        "components",
+        "utils",
+        "types",
+        "styles"
+      ],
+      "grouping": true,
+      "newlineBetweenGroups": true
+    },
+    "componentStructure": {
+      "order": [
+        "imports",
+        "types",
+        "constants",
+        "component",
+        "styles",
+        "exports"
+      ]
+    },
+    "formatting": {
+      "indentSize": 2,
+      "maxLineLength": 100,
+      "trailingComma": "es5",
+      "singleQuote": true,
+      "semi": true
+    },
+    "typescript": {
+      "strict": true,
+      "noImplicitAny": true,
+      "noUnusedLocals": true,
+      "noUnusedParameters": true
+    },
+    "tailwind": {
+      "classOrder": [
+        "layout",
+        "positioning",
+        "display",
+        "spacing",
+        "sizing",
+        "typography",
+        "backgrounds",
+        "borders",
+        "effects"
+      ],
+      "customClassPrefix": "ap-"
+    },
+    "git": {
+      "branchNaming": {
+        "main": "main"
+      },
+      "commitMessageFormat": "type(scope): description",
+      "commitMessageMaxLength": 72,
+      "commitMessageSingleLine": true,
+      "commitTypes": [
+        "feat",
+        "fix",
+        "docs",
+        "style",
+        "refactor",
+        "test",
+        "chore"
+      ]
+    },
+    "markdown": {
+      "listStyle": "hyphen",
+      "maxHeaderLevel": 3,
+      "codeBlockStyle": "triple",
+      "inlineCodeStyle": "single",
+      "lineEnding": "lf",
+      "requireEmptyLines": {
+        "aroundLists": true,
+        "aroundHeaders": true,
+        "atEndOfFile": true
+      },
+      "indentation": 2
+    }
+  }
+}
