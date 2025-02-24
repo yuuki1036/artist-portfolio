@@ -1,1 +1,11 @@
-{}
+{
+  "common": {
+    "title": "yasu224",
+    "menu": {
+      "home": "ホーム",
+      "works": "作品",
+      "about": "プロフィール",
+      "contact": "お問い合わせ"
+    }
+  }
+}
