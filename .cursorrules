@@ -1,12 +1,16 @@
 {
   "rules": {
     "fileNaming": {
-      "components": "kebab-case.tsx",
+      "components": {
+        "directory": "kebab-case",
+        "index": "index.tsx",
+        "types": "[component-name].types.ts",
+        "styles": "styles.css"
+      },
       "pages": "kebab-case.tsx",
       "utils": "kebab-case.ts",
       "types": "kebab-case.types.ts",
-      "styles": "kebab-case.css",
-      "tests": "*.test.ts"
+      "styles": "kebab-case.css"
     },
     "imports": {
       "order": [
@@ -22,14 +26,90 @@
       "newlineBetweenGroups": true
     },
     "componentStructure": {
-      "order": [
+      "directory": [
+        "index.tsx",
+        "styles.css"
+      ],
+      "fileOrder": [
         "imports",
         "types",
         "constants",
         "component",
         "styles",
         "exports"
+      ],
+      "rules": [
+        "コンポーネント固有のPropsはコンポーネントファイル内で定義する",
+        "types.tsファイルはコンポーネント間で共有する型のみを定義する",
+        "テストファイルはテスト対象と同じディレクトリに配置する"
       ]
+    },
+    "nextjs": {
+      "serverComponents": {
+        "default": true,
+        "naming": {
+          "suffix": ".server"
+        },
+        "rules": [
+          "データフェッチはSCで行う",
+          "静的なUIレンダリングはSCで行う",
+          "重いデータ処理はSCで行う",
+          "機密情報の処理はSCで行う"
+        ]
+      },
+      "clientComponents": {
+        "default": false,
+        "directive": "'use client'",
+        "naming": {
+          "suffix": ".client"
+        },
+        "rules": [
+          "useStateやuseEffectなどのReact Hooksを使用する場合",
+          "ブラウザAPIを使用する場合",
+          "イベントリスナーを使用する場合",
+          "クライアントサイドの状態管理が必要な場合",
+          "インタラクティブなUIコンポーネントの場合"
+        ],
+        "location": "components/client/"
+      }
+    },
+    "codeQuality": {
+      "preCommit": {
+        "required": true,
+        "commands": [
+          "npm run lint",
+          "npm run format",
+          "npm run typecheck"
+        ]
+      },
+      "afterEdit": {
+        "required": true,
+        "commands": [
+          "npm run lint:fix",
+          "npm run format"
+        ],
+        "rules": [
+          "ファイル編集後は必ずlintとformatを実行する",
+          "lintエラーは修正するまでコミットしない",
+          "型エラーは修正するまでコミットしない",
+          "コードフォーマットの乱れは修正するまでコミットしない"
+        ]
+      },
+      "lint": {
+        "tools": [
+          "eslint",
+          "biome"
+        ],
+        "autofix": true,
+        "strict": true
+      },
+      "format": {
+        "tools": [
+          "prettier",
+          "biome"
+        ],
+        "autofix": true
+      }
     },
     "formatting": {
       "indentSize": 2,

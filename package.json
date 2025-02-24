@@ -13,7 +13,8 @@
     "lint": "biome lint ./",
     "lint:fix": "biome lint --write ./",
     "format": "biome format ./",
-    "format:fix": "biome format --write ./"
+    "format:fix": "biome format --write ./",
+    "tsc": "tsc --noEmit"
   },
   "dependencies": {
     "next": "15.1.5",
