@@ -1,0 +1,76 @@
+{
+  "rules": {
+    "database": {
+      "prisma": {
+        "schema": {
+          "naming": {
+            "model": "PascalCase",
+            "field": "camelCase",
+            "enum": "PascalCase",
+            "constant": "SCREAMING_SNAKE_CASE"
+          },
+          "relations": {
+            "required": true,
+            "rules": [
+              "リレーションは明示的に定義する",
+              "外部キーには適切な制約を設定する",
+              "多対多の関係は中間テーブルを使用する"
+            ]
+          },
+          "timestamps": {
+            "required": true,
+            "fields": ["createdAt", "updatedAt"]
+          },
+          "mapping": {
+            "required": true,
+            "format": "snake_case",
+            "example": "@@map(\"user_profiles\")"
+          }
+        },
+        "client": {
+          "instantiation": {
+            "location": "lib/prisma.ts",
+            "type": "singleton",
+            "logging": {
+              "development": ["query", "error", "warn"],
+              "production": ["error"]
+            }
+          },
+          "usage": {
+            "serverComponents": {
+              "import": "import { prisma } from '@/lib/prisma'",
+              "location": "app/**/page.tsx, app/**/layout.tsx"
+            },
+            "apiRoutes": {
+              "import": "import { prisma } from '@/lib/prisma'",
+              "location": "app/api/**/*.ts"
+            }
+          }
+        }
+      },
+      "supabase": {
+        "environment": {
+          "required": [
+            "NEXT_PUBLIC_SUPABASE_URL",
+            "NEXT_PUBLIC_SUPABASE_ANON_KEY",
+            "DATABASE_URL"
+          ],
+          "location": ".env"
+        },
+        "client": {
+          "instantiation": {
+            "location": "utils/supabase.ts",
+            "type": "singleton"
+          }
+        },
+        "security": {
+          "rules": [
+            "環境変数は.envで管理し、Gitにコミットしない",
+            "本番環境の認証情報は安全に管理する",
+            "アクセス制御はRLSを使用する"
+          ]
+        }
+      }
+    }
+  }
+}
