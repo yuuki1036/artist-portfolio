@@ -14,7 +14,9 @@
     "lint:fix": "biome lint --write ./",
     "format": "biome format ./",
     "format:fix": "biome format --write ./",
-    "tsc": "tsc --noEmit"
+    "tsc": "tsc --noEmit",
+    "storybook": "storybook dev -p 6006",
+    "build-storybook": "storybook build"
   },
   "dependencies": {
     "@prisma/client": "^6.4.1",
@@ -28,12 +30,17 @@
   "devDependencies": {
     "@biomejs/biome": "1.9.4",
     "@eslint/eslintrc": "^3",
+    "@storybook/addon-docs": "^9.0.6",
+    "@storybook/addon-onboarding": "^9.0.6",
+    "@storybook/nextjs": "^9.0.6",
     "@types/node": "^20",
     "@types/react": "^19",
     "@types/react-dom": "^19",
     "eslint": "^9",
     "eslint-config-next": "15.1.5",
+    "eslint-plugin-storybook": "^9.0.6",
     "postcss": "^8",
+    "storybook": "^9.0.6",
     "tailwindcss": "^3.4.1",
     "typescript": "^5"
   },
