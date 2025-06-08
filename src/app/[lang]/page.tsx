@@ -28,8 +28,6 @@ export default async function HomePage({ params }: Props) {
     redirect(`/${i18n.defaultLocale}`);
   }
 
-  const t = await getTranslations(lang as Locale);
-
   return (
     <main className="ap-min-h-screen ap-p-8">
     </main>

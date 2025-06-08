@@ -1,4 +1,4 @@
-import type { Meta, StoryObj } from "@storybook/react";
+import type { Meta, StoryObj } from "@storybook/nextjs";
 import { LanguageSwitcher } from "./index";
 
 const meta: Meta<typeof LanguageSwitcher> = {
@@ -22,6 +22,10 @@ type Story = StoryObj<typeof meta>;
 export const Default: Story = {
   args: {
     currentLang: "ja",
+  },
+  render: (args, { globals }) => {
+    const locale = globals.locale || "ja";
+    return <LanguageSwitcher {...args} currentLang={locale} />;
   },
 };
 
