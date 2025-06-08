@@ -26,9 +26,10 @@ export function LanguageSwitcher({ currentLang }: LanguageSwitcherProps) {
     <button
       type="button"
       onClick={handleLanguageChange}
-      className="ap-fixed ap-top-4 ap-right-4 ap-px-4 ap-py-2 ap-bg-white ap-border ap-border-gray-200 ap-rounded-md ap-shadow-sm hover:ap-bg-gray-50 ap-text-gray-700"
+      className="ap-text-sm ap-text-gray-700 hover:ap-text-gray-900 ap-transition-colors ap-font-medium"
+      title={`Switch to ${i18n.labels[nextLocale]}`}
     >
-      {i18n.labels[nextLocale]}
+      {i18n.labels[currentLang as Locale]}
     </button>
   );
 }

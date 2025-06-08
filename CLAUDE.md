@@ -22,6 +22,10 @@ npm run format:fix    # Auto-fix formatting
 
 # Type checking
 npm run tsc           # TypeScript compilation check
+
+# Storybook
+npm run storybook     # Start Storybook development server
+npm run build-storybook # Build Storybook for production
 ```
 
 ## Architecture Overview
@@ -53,7 +57,8 @@ This is a multilingual artist portfolio built with Next.js 15 App Router, featur
 **File Structure**
 - Components use kebab-case naming
 - Route structure follows `src/app/[lang]/...` pattern
-- Language switcher component in `src/components/language-switcher/`
+- `src/components/` - Shared/common components only (e.g., language-switcher, navigation)
+- Feature-specific components should be organized using "package by feature" within `src/app/` directories
 
 **Environment Variables Required**
 - `NEXT_PUBLIC_SUPABASE_URL`

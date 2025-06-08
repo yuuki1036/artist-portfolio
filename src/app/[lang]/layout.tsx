@@ -2,7 +2,8 @@ import type { ReactNode } from "react";
 import type { Metadata } from "next";
 import { isValidLocale } from "@/i18n/settings";
 import { redirect } from "next/navigation";
-import { LanguageSwitcher } from "@/components/language-switcher";
+import { Navigation } from "./layout/components/navigation";
+import { getTranslations } from "@/i18n/utils";
 
 type Props = {
   children: ReactNode;
@@ -31,10 +32,12 @@ export default async function LocaleLayout({ children, params }: Props) {
     redirect("/ja");
   }
 
+  const translations = await getTranslations(lang);
+
   return (
-    <div className="ap-relative">
-      <LanguageSwitcher currentLang={lang} />
-      {children}
+    <div className="ap-relative ap-min-h-screen">
+      <Navigation currentLang={lang} translations={translations} />
+      <main>{children}</main>
     </div>
   );
 }
