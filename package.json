@@ -20,7 +20,7 @@
   "dependencies": {
     "@prisma/client": "^6.4.1",
     "@supabase/supabase-js": "^2.48.1",
-    "next": "^15.3.3",
+    "next": "16.1.1",
     "prisma": "^6.4.1",
     "react": "^19.0.0",
     "react-dom": "^19.0.0",
@@ -36,7 +36,7 @@
     "@types/react": "^19",
     "@types/react-dom": "^19",
     "eslint": "^9",
-    "eslint-config-next": "15.1.5",
+    "eslint-config-next": "16.1.1",
     "eslint-plugin-storybook": "^9.0.6",
     "postcss": "^8",
     "storybook": "^9.0.6",
