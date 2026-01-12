@@ -81,10 +81,10 @@ src/
 
 **フォント**
 ```css
-font-family: 'Caveat', 'Klee One', sans-serif;
+font-family: 'Zen Kaku Gothic New', system-ui, sans-serif;
 ```
-- 英語: Caveat（手書き風）
-- 日本語: Klee One（ペン字風）
+- 英語: システムフォント（San Francisco等）
+- 日本語: Zen Kaku Gothic New（角ゴシック）
 
 **レスポンシブ**: スマートフォンファースト
 
