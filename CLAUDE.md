@@ -1,78 +1,132 @@
 # CLAUDE.md
 
-This file provides guidance to Claude Code (claude.ai/code) when working with code in this repository.
+イラストレータのポートフォリオサイト開発用のガイドライン。
 
-## Development Commands
+## プロジェクト概要
+
+- **目的**: イラストレータのポートフォリオ + ECサイト
+- **主な機能**: 作品展示、商品販売（Stripe）、問い合わせ
+- **多言語対応**: 日本語（デフォルト）/ 英語
+- **設計ドキュメント**: `.claude/structure/base.md`
+
+## 開発コマンド
 
 ```bash
-# Development server with Turbopack
+# 開発サーバー（Turbopack）
 npm run dev
 
-# Build production version
+# ビルド
 npm run build
 
-# Production server
+# 本番サーバー
 npm start
 
-# Linting and formatting (using Biome)
-npm run lint          # Check code quality
-npm run lint:fix      # Auto-fix lint issues
-npm run format        # Check formatting
-npm run format:fix    # Auto-fix formatting
+# Lint / Format（Biome）
+npm run lint          # チェック
+npm run lint:fix      # 自動修正
+npm run format        # フォーマットチェック
+npm run format:fix    # 自動修正
 
-# Type checking
-npm run tsc           # TypeScript compilation check
+# 型チェック
+npm run tsc
 
 # Storybook
-npm run storybook     # Start Storybook development server
-npm run build-storybook # Build Storybook for production
+npm run storybook
+npm run build-storybook
 ```
 
-## Architecture Overview
+## 技術スタック
 
-This is a multilingual artist portfolio built with Next.js 15 App Router, featuring Japanese as the default language with English support.
+| カテゴリ | 技術 |
+|----------|------|
+| Framework | Next.js 16 (App Router) |
+| Language | TypeScript (strict mode) |
+| Styling | styled-components |
+| CMS | Sanity（予定） |
+| 決済 | Stripe（予定） |
+| DB | Prisma + Supabase |
+| Lint/Format | Biome |
+| Testing | Storybook |
+| Hosting | Vercel |
 
-### Core Architecture Patterns
+## アーキテクチャ
 
-**Internationalization (i18n)**
-- Routes are prefixed with locale: `/ja/...` and `/en/...`
-- Middleware automatically redirects root `/` to `/ja` (default locale)
-- Language settings in `src/i18n/settings.ts`
-- Translation files in `public/locales/[lang].json`
+### ディレクトリ構成
 
-**Database Layer**
-- Dual setup: Prisma ORM + Supabase as database provider
-- Prisma client singleton at `lib/prisma.ts` with development query logging
-- Supabase client at `utils/supabase.ts` with environment validation
-- Schema defines User/Work/Project/Contact models with proper relations
+```
+src/
+├── app/
+│   ├── [lang]/              # i18nルーティング
+│   │   ├── layout.tsx
+│   │   ├── page.tsx         # Home
+│   │   └── layout/components/  # レイアウト固有コンポーネント
+│   ├── globals.css
+│   └── layout.tsx
+├── components/              # 共通コンポーネント
+│   └── icons/
+├── i18n/
+│   ├── settings.ts          # 言語設定
+│   └── utils.ts
+└── proxy.ts                 # プロキシ設定
+```
 
-### Important Conventions
+### i18n（多言語対応）
 
-**Database (from rules.json)**
-- Models: PascalCase, Fields: camelCase
-- All models require `createdAt`/`updatedAt` timestamps
-- Database tables use snake_case mapping (e.g., `@@map("user_profiles")`)
-- Import Prisma client: `import { prisma } from '@/lib/prisma'`
+- ルート: `/ja/...`, `/en/...`
+- デフォルト: 日本語（`/` → `/ja` にリダイレクト）
+- 翻訳ファイル: `public/locales/[lang].json`
+- 設定: `src/i18n/settings.ts`
 
-**File Structure**
-- Components use kebab-case naming
-- Route structure follows `src/app/[lang]/...` pattern
-- `src/components/` - Shared/common components only (e.g., language-switcher, navigation)
-- Feature-specific components should be organized using "package by feature" within `src/app/` directories
+### デザイン
 
-**Environment Variables Required**
-- `NEXT_PUBLIC_SUPABASE_URL`
-- `NEXT_PUBLIC_SUPABASE_ANON_KEY`
-- `DATABASE_URL`
+**フォント**
+```css
+font-family: 'Caveat', 'Klee One', sans-serif;
+```
+- 英語: Caveat（手書き風）
+- 日本語: Klee One（ペン字風）
 
-### Key Implementation Details
+**レスポンシブ**: スマートフォンファースト
 
-**Middleware Behavior** (`src/middleware.ts`)
-- Automatically redirects all non-localized paths to `/ja/...`
-- Excludes API routes, Next.js internals, and static files
-- Essential for proper i18n routing
+## コーディング規約
 
-**Code Quality Tools**
-- Biome for linting/formatting (replaces ESLint/Prettier)
-- TypeScript strict mode enabled
-- Node.js 24+ required
+### 命名規則
+
+| 対象 | 規則 | 例 |
+|------|------|-----|
+| コンポーネントファイル | kebab-case | `language-switcher.tsx` |
+| DBモデル | PascalCase | `UserProfile` |
+| DBフィールド | camelCase | `createdAt` |
+| DBテーブル | snake_case | `@@map("user_profiles")` |
+
+### ファイル配置
+
+- **共通コンポーネント**: `src/components/`
+- **機能固有コンポーネント**: `src/app/[feature]/components/`
+- **Package by Feature** パターンを採用
+
+### DB（Prisma）
+
+```typescript
+import { prisma } from '@/lib/prisma'
+```
+
+- 全モデルに `createdAt` / `updatedAt` 必須
+
+## 環境変数
+
+```env
+NEXT_PUBLIC_SUPABASE_URL=
+NEXT_PUBLIC_SUPABASE_ANON_KEY=
+DATABASE_URL=
+```
+
+## ページ構成（予定）
+
+| ページ | パス | 内容 |
+|--------|------|------|
+| Home | `/` | ヒーロー + 新着作品 |
+| Works | `/works` | 作品一覧 |
+| Shop | `/shop` | 商品一覧 |
+| About | `/about` | プロフィール |
+| Contact | `/contact` | 問い合わせ |
