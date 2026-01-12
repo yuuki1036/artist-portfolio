@@ -28,8 +28,5 @@ export default async function HomePage({ params }: Props) {
     redirect(`/${i18n.defaultLocale}`);
   }
 
-  return (
-    <main className="ap-min-h-screen ap-p-8">
-    </main>
-  );
+  return <main className="ap-min-h-screen ap-p-8" />;
 }

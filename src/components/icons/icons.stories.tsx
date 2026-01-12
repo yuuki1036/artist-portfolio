@@ -1,26 +1,33 @@
-import type { Meta, StoryObj } from '@storybook/nextjs';
-import { InstagramIcon, TikTokIcon, ShoppingCartIcon, HamburgerMenuIcon, CloseIcon } from './index';
+import type { Meta, StoryObj } from "@storybook/nextjs";
+import {
+  InstagramIcon,
+  TikTokIcon,
+  ShoppingCartIcon,
+  HamburgerMenuIcon,
+  CloseIcon,
+} from "./index";
 
 const meta: Meta = {
-  title: 'Components/Icons',
+  title: "Components/Icons",
   parameters: {
-    layout: 'centered',
+    layout: "centered",
     docs: {
       description: {
-        component: 'Icon components used throughout the application. All icons support className and aria-label props.',
+        component:
+          "Icon components used throughout the application. All icons support className and aria-label props.",
       },
     },
   },
-  tags: ['autodocs'],
+  tags: ["autodocs"],
   argTypes: {
     className: {
-      control: 'text',
-      description: 'CSS classes to apply to the icon',
-      defaultValue: 'ap-w-5 ap-h-5',
+      control: "text",
+      description: "CSS classes to apply to the icon",
+      defaultValue: "ap-w-5 ap-h-5",
     },
-    'aria-label': {
-      control: 'text',
-      description: 'Accessible label for screen readers',
+    "aria-label": {
+      control: "text",
+      description: "Accessible label for screen readers",
     },
   },
 };
@@ -34,35 +41,45 @@ export const IconCatalog: Story = {
     <div className="ap-grid ap-grid-cols-3 lg:ap-grid-cols-5 ap-gap-8 ap-p-4">
       <div className="ap-flex ap-flex-col ap-items-center ap-space-y-2">
         <InstagramIcon {...args} />
-        <span className="ap-text-sm ap-text-gray-600 ap-font-medium">InstagramIcon</span>
+        <span className="ap-text-sm ap-text-gray-600 ap-font-medium">
+          InstagramIcon
+        </span>
         <code className="ap-text-xs ap-bg-gray-100 ap-px-2 ap-py-1 ap-rounded">
           &lt;InstagramIcon /&gt;
         </code>
       </div>
       <div className="ap-flex ap-flex-col ap-items-center ap-space-y-2">
         <TikTokIcon {...args} />
-        <span className="ap-text-sm ap-text-gray-600 ap-font-medium">TikTokIcon</span>
+        <span className="ap-text-sm ap-text-gray-600 ap-font-medium">
+          TikTokIcon
+        </span>
         <code className="ap-text-xs ap-bg-gray-100 ap-px-2 ap-py-1 ap-rounded">
           &lt;TikTokIcon /&gt;
         </code>
       </div>
       <div className="ap-flex ap-flex-col ap-items-center ap-space-y-2">
         <ShoppingCartIcon {...args} />
-        <span className="ap-text-sm ap-text-gray-600 ap-font-medium">ShoppingCartIcon</span>
+        <span className="ap-text-sm ap-text-gray-600 ap-font-medium">
+          ShoppingCartIcon
+        </span>
         <code className="ap-text-xs ap-bg-gray-100 ap-px-2 ap-py-1 ap-rounded">
           &lt;ShoppingCartIcon /&gt;
         </code>
       </div>
       <div className="ap-flex ap-flex-col ap-items-center ap-space-y-2">
         <HamburgerMenuIcon {...args} />
-        <span className="ap-text-sm ap-text-gray-600 ap-font-medium">HamburgerMenuIcon</span>
+        <span className="ap-text-sm ap-text-gray-600 ap-font-medium">
+          HamburgerMenuIcon
+        </span>
         <code className="ap-text-xs ap-bg-gray-100 ap-px-2 ap-py-1 ap-rounded">
           &lt;HamburgerMenuIcon /&gt;
         </code>
       </div>
       <div className="ap-flex ap-flex-col ap-items-center ap-space-y-2">
         <CloseIcon {...args} />
-        <span className="ap-text-sm ap-text-gray-600 ap-font-medium">CloseIcon</span>
+        <span className="ap-text-sm ap-text-gray-600 ap-font-medium">
+          CloseIcon
+        </span>
         <code className="ap-text-xs ap-bg-gray-100 ap-px-2 ap-py-1 ap-rounded">
           &lt;CloseIcon /&gt;
         </code>
@@ -70,12 +87,13 @@ export const IconCatalog: Story = {
     </div>
   ),
   args: {
-    className: 'ap-w-8 ap-h-8 ap-text-gray-700',
+    className: "ap-w-8 ap-h-8 ap-text-gray-700",
   },
   parameters: {
     docs: {
       description: {
-        story: 'Complete catalog of all available icons with their component names and usage examples.',
+        story:
+          "Complete catalog of all available icons with their component names and usage examples.",
       },
     },
   },
@@ -114,7 +132,8 @@ export const Sizes: Story = {
   parameters: {
     docs: {
       description: {
-        story: 'Icons in different sizes using Tailwind CSS width and height classes.',
+        story:
+          "Icons in different sizes using Tailwind CSS width and height classes.",
       },
     },
   },
@@ -153,7 +172,8 @@ export const Colors: Story = {
   parameters: {
     docs: {
       description: {
-        story: 'Icons with different colors using Tailwind CSS text color classes. All icons inherit the current text color.',
+        story:
+          "Icons with different colors using Tailwind CSS text color classes. All icons inherit the current text color.",
       },
     },
   },
@@ -163,12 +183,12 @@ export const Colors: Story = {
 export const Instagram: Story = {
   render: (args) => <InstagramIcon {...args} />,
   args: {
-    className: 'ap-w-8 ap-h-8 ap-text-gray-700',
+    className: "ap-w-8 ap-h-8 ap-text-gray-700",
   },
   parameters: {
     docs: {
       description: {
-        story: 'Instagram social media icon.',
+        story: "Instagram social media icon.",
       },
     },
   },
@@ -177,12 +197,12 @@ export const Instagram: Story = {
 export const TikTok: Story = {
   render: (args) => <TikTokIcon {...args} />,
   args: {
-    className: 'ap-w-8 ap-h-8 ap-text-gray-700',
+    className: "ap-w-8 ap-h-8 ap-text-gray-700",
   },
   parameters: {
     docs: {
       description: {
-        story: 'TikTok social media icon.',
+        story: "TikTok social media icon.",
       },
     },
   },
@@ -191,12 +211,12 @@ export const TikTok: Story = {
 export const ShoppingCart: Story = {
   render: (args) => <ShoppingCartIcon {...args} />,
   args: {
-    className: 'ap-w-8 ap-h-8 ap-text-gray-700',
+    className: "ap-w-8 ap-h-8 ap-text-gray-700",
   },
   parameters: {
     docs: {
       description: {
-        story: 'Shopping cart icon for e-commerce functionality.',
+        story: "Shopping cart icon for e-commerce functionality.",
       },
     },
   },

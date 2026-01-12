@@ -2,7 +2,7 @@ import { NextResponse } from "next/server";
 import type { NextRequest } from "next/server";
 import { i18n } from "@/i18n/settings";
 
-export function middleware(request: NextRequest) {
+export function proxy(request: NextRequest) {
   const pathname = request.nextUrl.pathname;
 
   // ルートパスへのアクセスをデフォルト言語にリダイレクト
@@ -27,7 +27,7 @@ export function middleware(request: NextRequest) {
   return NextResponse.next();
 }
 
-// 静的ファイルやAPI以外のすべてのリクエストに対してミドルウェアを実行
+// 静的ファイルやAPI以外のすべてのリクエストに対してproxyを実行
 export const config = {
   matcher: [
     /*

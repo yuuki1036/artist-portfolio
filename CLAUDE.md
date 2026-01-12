@@ -62,7 +62,7 @@ This is a multilingual artist portfolio built with Next.js 15 App Router, featur
 
 **Environment Variables Required**
 - `NEXT_PUBLIC_SUPABASE_URL`
-- `NEXT_PUBLIC_SUPABASE_ANON_KEY` 
+- `NEXT_PUBLIC_SUPABASE_ANON_KEY`
 - `DATABASE_URL`
 
 ### Key Implementation Details
@@ -75,4 +75,4 @@ This is a multilingual artist portfolio built with Next.js 15 App Router, featur
 **Code Quality Tools**
 - Biome for linting/formatting (replaces ESLint/Prettier)
 - TypeScript strict mode enabled
-- Node.js 20.14.0+ and npm 10.7.0+ required
+- Node.js 24+ required

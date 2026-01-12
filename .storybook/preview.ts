@@ -1,12 +1,12 @@
-import type { Preview } from '@storybook/nextjs'
-import '../src/app/globals.css'
+import type { Preview } from "@storybook/nextjs";
+import "../src/app/globals.css";
 
 const preview: Preview = {
   parameters: {
     controls: {
       matchers: {
-       color: /(background|color)$/i,
-       date: /Date$/i,
+        color: /(background|color)$/i,
+        date: /Date$/i,
       },
     },
     nextjs: {
@@ -15,20 +15,20 @@ const preview: Preview = {
   },
   globalTypes: {
     locale: {
-      description: 'Internationalization locale',
+      description: "Internationalization locale",
       toolbar: {
-        title: 'Language',
-        icon: 'globe',
+        title: "Language",
+        icon: "globe",
         items: [
-          { value: 'ja', title: '🇯🇵 日本語' },
-          { value: 'en', title: '🇺🇸 English' },
+          { value: "ja", title: "🇯🇵 日本語" },
+          { value: "en", title: "🇺🇸 English" },
         ],
         dynamicTitle: true,
       },
     },
   },
   initialGlobals: {
-    locale: 'ja',
+    locale: "ja",
   },
 };
 
