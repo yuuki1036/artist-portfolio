@@ -5,7 +5,13 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import type { Locale } from "@/i18n/settings";
 import { LanguageSwitcher } from "@/app/[lang]/layout/components/language-switcher";
-import { InstagramIcon, TikTokIcon, ShoppingCartIcon, HamburgerMenuIcon, CloseIcon } from "@/components/icons";
+import {
+  InstagramIcon,
+  TikTokIcon,
+  ShoppingCartIcon,
+  HamburgerMenuIcon,
+  CloseIcon,
+} from "@/components/icons";
 
 type NavigationProps = {
   currentLang: Locale;
@@ -43,12 +49,12 @@ export function Navigation({ currentLang }: NavigationProps) {
     {
       icon: "instagram",
       href: "https://instagram.com",
-      label: "Instagram"
+      label: "Instagram",
     },
     {
       icon: "tiktok",
       href: "https://tiktok.com",
-      label: "TikTok"
+      label: "TikTok",
     },
   ];
 
@@ -75,10 +81,11 @@ export function Navigation({ currentLang }: NavigationProps) {
                 <Link
                   key={item.key}
                   href={item.href}
-                  className={`ap-text-sm ap-font-medium ap-transition-colors hover:ap-text-gray-600 ${pathname === item.href
-                    ? "ap-text-gray-900 ap-border-b-2 ap-border-gray-900 ap-pb-1"
-                    : "ap-text-gray-700"
-                    }`}
+                  className={`ap-text-sm ap-font-medium ap-transition-colors hover:ap-text-gray-600 ${
+                    pathname === item.href
+                      ? "ap-text-gray-900 ap-border-b-2 ap-border-gray-900 ap-pb-1"
+                      : "ap-text-gray-700"
+                  }`}
                 >
                   {item.label}
                 </Link>
@@ -180,8 +187,11 @@ export function Navigation({ currentLang }: NavigationProps) {
                   key={item.key}
                   href={item.href}
                   onClick={closeMobileMenu}
-                  className={`ap-text-lg ap-font-medium ap-transition-colors hover:ap-text-gray-600 ${pathname === item.href ? "ap-text-gray-900" : "ap-text-gray-700"
-                    }`}
+                  className={`ap-text-lg ap-font-medium ap-transition-colors hover:ap-text-gray-600 ${
+                    pathname === item.href
+                      ? "ap-text-gray-900"
+                      : "ap-text-gray-700"
+                  }`}
                 >
                   {item.label}
                 </Link>
@@ -201,19 +211,33 @@ export function Navigation({ currentLang }: NavigationProps) {
                     className="ap-text-gray-700 hover:ap-text-gray-900 ap-transition-colors"
                     aria-label={social.label}
                   >
-                    {social.icon === "instagram" && <InstagramIcon className="ap-w-6 ap-h-6" />}
-                    {social.icon === "tiktok" && <TikTokIcon className="ap-w-6 ap-h-6" />}
+                    {social.icon === "instagram" && (
+                      <InstagramIcon className="ap-w-6 ap-h-6" />
+                    )}
+                    {social.icon === "tiktok" && (
+                      <TikTokIcon className="ap-w-6 ap-h-6" />
+                    )}
                   </a>
                 ))}
               </div>
 
               {/* Language Switcher */}
               <div className="ap-flex ap-items-center ap-justify-center ap-space-x-2">
-                <span className="ap-text-sm ap-text-gray-600">
-                  🇫🇷 Français
-                </span>
-                <svg className="ap-w-4 ap-h-4 ap-text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24" role="img" aria-label="Language options">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+                <span className="ap-text-sm ap-text-gray-600">🇫🇷 Français</span>
+                <svg
+                  className="ap-w-4 ap-h-4 ap-text-gray-400"
+                  fill="none"
+                  stroke="currentColor"
+                  viewBox="0 0 24 24"
+                  role="img"
+                  aria-label="Language options"
+                >
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth={2}
+                    d="M9 5l7 7-7 7"
+                  />
                 </svg>
               </div>
             </div>

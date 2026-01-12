@@ -1,41 +1,41 @@
-import type { Meta, StoryObj } from '@storybook/nextjs';
-import { Navigation } from './index';
+import type { Meta, StoryObj } from "@storybook/nextjs";
+import { Navigation } from "./index";
 
 // Translation data
 const translations = {
   ja: {
     common: {
       menu: {
-        home: 'ホーム',
-        works: '作品',
-        about: 'プロフィール',
-        contact: 'お問い合わせ',
+        home: "ホーム",
+        works: "作品",
+        about: "プロフィール",
+        contact: "お問い合わせ",
       },
     },
   },
   en: {
     common: {
       menu: {
-        home: 'Home',
-        works: 'Works',
-        about: 'About',
-        contact: 'Contact',
+        home: "Home",
+        works: "Works",
+        about: "About",
+        contact: "Contact",
       },
     },
   },
 };
 
 const meta: Meta<typeof Navigation> = {
-  title: 'Layout/Navigation',
+  title: "Layout/Navigation",
   component: Navigation,
   parameters: {
-    layout: 'fullscreen',
+    layout: "fullscreen",
   },
-  tags: ['autodocs'],
+  tags: ["autodocs"],
   argTypes: {
     currentLang: {
-      control: { type: 'select' },
-      options: ['ja', 'en'],
+      control: { type: "select" },
+      options: ["ja", "en"],
     },
   },
 };
@@ -45,11 +45,11 @@ type Story = StoryObj<typeof meta>;
 
 export const Default: Story = {
   args: {
-    currentLang: 'ja',
+    currentLang: "ja",
     translations: translations.ja,
   },
   render: (args, { globals }) => {
-    const locale = globals.locale || 'ja';
+    const locale = globals.locale || "ja";
     return (
       <Navigation
         {...args}
@@ -62,14 +62,14 @@ export const Default: Story = {
 
 export const Japanese: Story = {
   args: {
-    currentLang: 'ja',
+    currentLang: "ja",
     translations: translations.ja,
   },
 };
 
 export const English: Story = {
   args: {
-    currentLang: 'en',
+    currentLang: "en",
     translations: translations.en,
   },
 };
