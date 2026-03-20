@@ -7,7 +7,8 @@
 - **目的**: イラストレータのポートフォリオ + ECサイト
 - **主な機能**: 作品展示、商品販売（Stripe）、問い合わせ
 - **多言語対応**: 日本語（デフォルト）/ 英語
-- **設計ドキュメント**: `.claude/structure/base.md`
+- **タスク管理**: indie-workflow（`.claude/indie/yasu224/`）
+- **設計ドキュメント**: `.claude/indie/yasu224/project.md`
 
 ## 開発コマンド
 
@@ -33,6 +34,11 @@ npm run tsc
 # Storybook
 npm run storybook
 npm run build-storybook
+
+# Prisma
+npx prisma generate   # クライアント生成
+npx prisma db push    # スキーマをDBに反映
+npx prisma studio     # DB GUI
 ```
 
 ## 技術スタック
@@ -59,11 +65,13 @@ src/
 │   ├── [lang]/              # i18nルーティング
 │   │   ├── layout.tsx
 │   │   ├── page.tsx         # Home
-│   │   └── layout/components/  # レイアウト固有コンポーネント
+│   │   └── layout/components/
+│   │       ├── navigation/      # ナビゲーション
+│   │       └── language-switcher/ # 言語切替
 │   ├── globals.css
-│   └── layout.tsx
+│   └── layout.tsx           # ルートレイアウト
 ├── components/              # 共通コンポーネント
-│   └── icons/
+│   └── icons/               # SVGアイコン群
 ├── i18n/
 │   ├── settings.ts          # 言語設定
 │   └── utils.ts
@@ -90,6 +98,11 @@ font-family: 'Zen Kaku Gothic New', system-ui, sans-serif;
 
 ## コーディング規約
 
+### Biome 設定
+
+- ダブルクォート、スペース2インデント、lineWidth 80
+- `noUnusedImports: error`、import 自動整理有効
+
 ### 命名規則
 
 | 対象 | 規則 | 例 |
@@ -104,6 +117,7 @@ font-family: 'Zen Kaku Gothic New', system-ui, sans-serif;
 - **共通コンポーネント**: `src/components/`
 - **機能固有コンポーネント**: `src/app/[feature]/components/`
 - **Package by Feature** パターンを採用
+- **Storybook**: コンポーネントと同じディレクトリに `*.stories.tsx` を配置（コロケーション）
 
 ### DB（Prisma）
 
@@ -112,6 +126,7 @@ import { prisma } from '@/lib/prisma'
 ```
 
 - 全モデルに `createdAt` / `updatedAt` 必須
+- モデル: User, Work, Project, Contact（`prisma/schema.prisma`）
 
 ## 環境変数
 
