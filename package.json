@@ -13,7 +13,7 @@
     "lint:fix": "biome lint --write ./",
     "format": "biome format ./",
     "format:fix": "biome format --write ./",
-    "tsc": "tsc --noEmit",
+    "tsc": "tsgo --noEmit",
     "storybook": "storybook dev -p 6006",
     "build-storybook": "storybook build"
   },
@@ -35,6 +35,7 @@
     "@types/node": "^24",
     "@types/react": "^19",
     "@types/react-dom": "^19",
+    "@typescript/native-preview": "^7.0.0-dev.20260320.1",
     "eslint": "^9",
     "eslint-config-next": "16.1.1",
     "eslint-plugin-storybook": "^9.0.6",
