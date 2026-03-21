@@ -1,3 +1,19 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+@layer base {
+  :root {
+    /* Background */
+    --color-bg-primary: 254 252 243; /* #FEFCF3 オフホワイト */
+    --color-bg-warm: 242 230 217; /* #F2E6D9 ベージュ */
+    --color-bg-deep: 91 127 110; /* #5B7F6E モスグリーン */
+
+    /* Text */
+    --color-text-primary: 44 44 44; /* #2C2C2C ソフトブラック */
+    --color-text-on-deep: 254 252 243; /* #FEFCF3 深色背景上のテキスト */
+
+    /* Accent */
+    --color-accent: 192 57 43; /* #C0392B 赤 */
+  }
+}

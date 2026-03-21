@@ -10,8 +10,16 @@ export default {
   theme: {
     extend: {
       colors: {
-        background: "var(--background)",
-        foreground: "var(--foreground)",
+        bg: {
+          primary: "rgb(var(--color-bg-primary) / <alpha-value>)",
+          warm: "rgb(var(--color-bg-warm) / <alpha-value>)",
+          deep: "rgb(var(--color-bg-deep) / <alpha-value>)",
+        },
+        text: {
+          primary: "rgb(var(--color-text-primary) / <alpha-value>)",
+          "on-deep": "rgb(var(--color-text-on-deep) / <alpha-value>)",
+        },
+        accent: "rgb(var(--color-accent) / <alpha-value>)",
       },
     },
   },
