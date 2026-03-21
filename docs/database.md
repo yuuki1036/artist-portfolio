@@ -56,10 +56,13 @@ model Post {
 `lib/prisma.ts`でシングルトンとして初期化：
 
 ```typescript
-import { PrismaClient } from '@prisma/client';
+import { PrismaClient } from "@prisma/client";
 
 const prisma = new PrismaClient({
-  log: process.env.NODE_ENV === 'development' ? ['query', 'error', 'warn'] : ['error'],
+  log:
+    process.env.NODE_ENV === "development"
+      ? ["query", "error", "warn"]
+      : ["error"],
 });
 
 export { prisma };
@@ -70,7 +73,7 @@ export { prisma };
 #### サーバーコンポーネントでの使用
 
 ```typescript
-import { prisma } from '@/lib/prisma';
+import { prisma } from "@/lib/prisma";
 
 const users = await prisma.user.findMany();
 ```
@@ -78,8 +81,8 @@ const users = await prisma.user.findMany();
 #### APIルートでの使用
 
 ```typescript
-import { prisma } from '@/lib/prisma';
-import { NextResponse } from 'next/server';
+import { prisma } from "@/lib/prisma";
+import { NextResponse } from "next/server";
 
 export async function GET() {
   const users = await prisma.user.findMany();
@@ -159,4 +162,4 @@ npx prisma studio
 3. **パフォーマンス問題**
    - クエリの最適化
    - インデックスの見直し
-   - キャッシュの検討 
+   - キャッシュの検討

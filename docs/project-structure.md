@@ -48,12 +48,14 @@ artist-portfolio/
 ### コミットメッセージ
 
 形式: `type(scope): description`
+
 - 1行のみ（72文字以内）
 - type: feat, fix, docs, style, refactor, test, chore
 - scope: 変更範囲（例: config, component, style）
 - description: 変更内容を簡潔に
 
 例:
+
 - `feat(gallery): add image grid layout`
 - `fix(header): correct navigation link paths`
 - `chore(deps): update dependencies`

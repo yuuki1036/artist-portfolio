@@ -7,8 +7,8 @@
 - **目的**: イラストレータのポートフォリオ + ECサイト
 - **主な機能**: 作品展示、商品販売（Stripe）、問い合わせ
 - **多言語対応**: 日本語（デフォルト）/ 英語
-- **タスク管理**: indie-workflow（`.claude/indie/yasu224/`）
-- **設計ドキュメント**: `.claude/indie/yasu224/project.md`
+- **タスク管理**: indie-workflow（`.claude/indie/yas/`）
+- **設計ドキュメント**: `.claude/indie/yas/project.md`
 
 ## 開発コマンド
 
@@ -22,7 +22,7 @@ npm run build
 # 本番サーバー
 npm start
 
-# Lint / Format（Biome）
+# Lint（OxLint）/ Format（Oxfmt）
 npm run lint          # チェック
 npm run lint:fix      # 自動修正
 npm run format        # フォーマットチェック
@@ -43,17 +43,17 @@ npx prisma studio     # DB GUI
 
 ## 技術スタック
 
-| カテゴリ | 技術 |
-|----------|------|
-| Framework | Next.js 16 (App Router) |
-| Language | TypeScript (strict mode) |
-| Styling | styled-components |
-| CMS | Sanity（予定） |
-| 決済 | Stripe（予定） |
-| DB | Prisma + Supabase |
-| Lint/Format | Biome |
-| Testing | Storybook |
-| Hosting | Vercel |
+| カテゴリ    | 技術                     |
+| ----------- | ------------------------ |
+| Framework   | Next.js 16 (App Router)  |
+| Language    | TypeScript (strict mode) |
+| Styling     | styled-components        |
+| CMS         | Sanity（予定）           |
+| 決済        | Stripe（予定）           |
+| DB          | Prisma + Supabase        |
+| Lint/Format | OxLint + Oxfmt           |
+| Testing     | Storybook                |
+| Hosting     | Vercel                   |
 
 ## アーキテクチャ
 
@@ -88,9 +88,11 @@ src/
 ### デザイン
 
 **フォント**
+
 ```css
-font-family: 'Zen Kaku Gothic New', system-ui, sans-serif;
+font-family: "Zen Kaku Gothic New", system-ui, sans-serif;
 ```
+
 - 英語: システムフォント（San Francisco等）
 - 日本語: Zen Kaku Gothic New（角ゴシック）
 
@@ -98,19 +100,19 @@ font-family: 'Zen Kaku Gothic New', system-ui, sans-serif;
 
 ## コーディング規約
 
-### Biome 設定
+### OxLint + Oxfmt 設定
 
-- ダブルクォート、スペース2インデント、lineWidth 80
-- `noUnusedImports: error`、import 自動整理有効
+- **Oxfmt**: ダブルクォート、スペース2インデント、printWidth 80
+- **OxLint**: `no-unused-vars: error`、recommended ルール有効
 
 ### 命名規則
 
-| 対象 | 規則 | 例 |
-|------|------|-----|
-| コンポーネントファイル | kebab-case | `language-switcher.tsx` |
-| DBモデル | PascalCase | `UserProfile` |
-| DBフィールド | camelCase | `createdAt` |
-| DBテーブル | snake_case | `@@map("user_profiles")` |
+| 対象                   | 規則       | 例                       |
+| ---------------------- | ---------- | ------------------------ |
+| コンポーネントファイル | kebab-case | `language-switcher.tsx`  |
+| DBモデル               | PascalCase | `UserProfile`            |
+| DBフィールド           | camelCase  | `createdAt`              |
+| DBテーブル             | snake_case | `@@map("user_profiles")` |
 
 ### ファイル配置
 
@@ -122,7 +124,7 @@ font-family: 'Zen Kaku Gothic New', system-ui, sans-serif;
 ### DB（Prisma）
 
 ```typescript
-import { prisma } from '@/lib/prisma'
+import { prisma } from "@/lib/prisma";
 ```
 
 - 全モデルに `createdAt` / `updatedAt` 必須
@@ -138,10 +140,10 @@ DATABASE_URL=
 
 ## ページ構成（予定）
 
-| ページ | パス | 内容 |
-|--------|------|------|
-| Home | `/` | ヒーロー + 新着作品 |
-| Works | `/works` | 作品一覧 |
-| Shop | `/shop` | 商品一覧 |
-| About | `/about` | プロフィール |
-| Contact | `/contact` | 問い合わせ |
+| ページ  | パス       | 内容                |
+| ------- | ---------- | ------------------- |
+| Home    | `/`        | ヒーロー + 新着作品 |
+| Works   | `/works`   | 作品一覧            |
+| Shop    | `/shop`    | 商品一覧            |
+| About   | `/about`   | プロフィール        |
+| Contact | `/contact` | 問い合わせ          |
