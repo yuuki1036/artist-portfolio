@@ -7,5 +7,16 @@
       "about": "About",
       "contact": "Contact"
     }
+  },
+  "home": {
+    "hero": {
+      "greeting": "Hello, I'm",
+      "name": "yasu224",
+      "tagline": "Making everyday life a little more fun with illustration."
+    },
+    "sections": {
+      "works": "Works",
+      "shop": "Shop"
+    }
   }
 }

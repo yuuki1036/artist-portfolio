@@ -7,5 +7,16 @@
       "about": "プロフィール",
       "contact": "お問い合わせ"
     }
+  },
+  "home": {
+    "hero": {
+      "greeting": "こんにちは、",
+      "name": "yasu224",
+      "tagline": "イラストで、日常をちょっと楽しく。"
+    },
+    "sections": {
+      "works": "Works",
+      "shop": "Shop"
+    }
   }
 }

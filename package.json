@@ -11,6 +11,7 @@
     "format": "oxfmt --check .",
     "format:fix": "oxfmt --write .",
     "tsc": "tsgo --noEmit",
+    "pre-commit-check": "npm run lint && npm run format && npm run tsc && npm run build",
     "storybook": "storybook dev -p 6006",
     "build-storybook": "storybook build"
   },
