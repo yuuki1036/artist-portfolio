@@ -47,7 +47,7 @@ npx prisma studio     # DB GUI
 | ----------- | ------------------------ |
 | Framework   | Next.js 16 (App Router)  |
 | Language    | TypeScript (strict mode) |
-| Styling     | styled-components        |
+| Styling     | Tailwind CSS v4          |
 | CMS         | Sanity（予定）           |
 | 決済        | Stripe（予定）           |
 | DB          | Prisma + Supabase        |
