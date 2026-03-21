@@ -14,11 +14,7 @@ export const metadata: Metadata = {
   description: "Welcome to my portfolio",
 };
 
-export default function RootLayout({
-  children,
-}: {
-  children: ReactNode;
-}) {
+export default function RootLayout({ children }: { children: ReactNode }) {
   return (
     <html lang="ja" suppressHydrationWarning>
       <body className={zenKakuGothicNew.className}>{children}</body>
