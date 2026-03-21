@@ -16,10 +16,11 @@
     "build-storybook": "storybook build"
   },
   "dependencies": {
-    "@prisma/client": "^6.4.1",
+    "@prisma/adapter-pg": "^7.5.0",
+    "@prisma/client": "^7.5.0",
     "@supabase/supabase-js": "^2.99.3",
     "next": "16.1.1",
-    "prisma": "^6.4.1",
+    "prisma": "^7.5.0",
     "react": "^19.0.0",
     "react-dom": "^19.0.0",
     "styled-components": "^6.1.14",
