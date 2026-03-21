@@ -107,12 +107,8 @@ export default async function HomePage({ params }: Props) {
                 <h3 className="text-xl font-bold text-text-on-deep mb-2">
                   {item.title}
                 </h3>
-                <p className="text-2xl font-black text-accent">
-                  {item.price}
-                </p>
-                <p className="text-sm text-text-on-deep/60 mt-3">
-                  Coming Soon
-                </p>
+                <p className="text-2xl font-black text-accent">{item.price}</p>
+                <p className="text-sm text-text-on-deep/60 mt-3">Coming Soon</p>
               </div>
             ))}
           </div>

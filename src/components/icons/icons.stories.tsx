@@ -41,18 +41,14 @@ export const IconCatalog: Story = {
     <div className="grid grid-cols-3 lg:grid-cols-5 gap-8 p-4">
       <div className="flex flex-col items-center space-y-2">
         <InstagramIcon {...args} />
-        <span className="text-sm text-gray-600 font-medium">
-          InstagramIcon
-        </span>
+        <span className="text-sm text-gray-600 font-medium">InstagramIcon</span>
         <code className="text-xs bg-gray-100 px-2 py-1 rounded">
           &lt;InstagramIcon /&gt;
         </code>
       </div>
       <div className="flex flex-col items-center space-y-2">
         <TikTokIcon {...args} />
-        <span className="text-sm text-gray-600 font-medium">
-          TikTokIcon
-        </span>
+        <span className="text-sm text-gray-600 font-medium">TikTokIcon</span>
         <code className="text-xs bg-gray-100 px-2 py-1 rounded">
           &lt;TikTokIcon /&gt;
         </code>
@@ -77,9 +73,7 @@ export const IconCatalog: Story = {
       </div>
       <div className="flex flex-col items-center space-y-2">
         <CloseIcon {...args} />
-        <span className="text-sm text-gray-600 font-medium">
-          CloseIcon
-        </span>
+        <span className="text-sm text-gray-600 font-medium">CloseIcon</span>
         <code className="text-xs bg-gray-100 px-2 py-1 rounded">
           &lt;CloseIcon /&gt;
         </code>

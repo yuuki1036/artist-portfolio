@@ -188,9 +188,7 @@ export function Navigation({ currentLang }: NavigationProps) {
                   href={item.href}
                   onClick={closeMobileMenu}
                   className={`text-lg font-medium transition-colors hover:text-gray-600 ${
-                    pathname === item.href
-                      ? "text-gray-900"
-                      : "text-gray-700"
+                    pathname === item.href ? "text-gray-900" : "text-gray-700"
                   }`}
                 >
                   {item.label}
