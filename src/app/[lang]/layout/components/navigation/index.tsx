@@ -60,15 +60,15 @@ export function Navigation({ currentLang }: NavigationProps) {
 
   return (
     <>
-      <nav className="ap-w-full ap-bg-white ap-border-b ap-border-gray-100">
-        <div className="ap-max-w-7xl ap-mx-auto ap-px-4 ap-py-4">
-          <div className="ap-flex ap-items-center ap-justify-between">
+      <nav className="w-full bg-white border-b border-gray-100">
+        <div className="max-w-7xl mx-auto px-4 py-4">
+          <div className="flex items-center justify-between">
             {/* Mobile Menu Button */}
-            <div className="md:ap-hidden">
+            <div className="md:hidden">
               <button
                 type="button"
                 onClick={toggleMobileMenu}
-                className="ap-text-gray-700 hover:ap-text-gray-900 ap-transition-colors"
+                className="text-gray-700 hover:text-gray-900 transition-colors"
                 aria-label="Toggle mobile menu"
               >
                 <HamburgerMenuIcon />
@@ -76,15 +76,15 @@ export function Navigation({ currentLang }: NavigationProps) {
             </div>
 
             {/* Left Navigation - Desktop */}
-            <div className="ap-hidden md:ap-flex ap-items-center ap-space-x-8">
+            <div className="hidden md:flex items-center space-x-8">
               {navigationItems.map((item) => (
                 <Link
                   key={item.key}
                   href={item.href}
-                  className={`ap-text-sm ap-font-medium ap-transition-colors hover:ap-text-gray-600 ${
+                  className={`text-sm font-medium transition-colors hover:text-gray-600 ${
                     pathname === item.href
-                      ? "ap-text-gray-900 ap-border-b-2 ap-border-gray-900 ap-pb-1"
-                      : "ap-text-gray-700"
+                      ? "text-gray-900 border-b-2 border-gray-900 pb-1"
+                      : "text-gray-700"
                   }`}
                 >
                   {item.label}
@@ -93,26 +93,26 @@ export function Navigation({ currentLang }: NavigationProps) {
             </div>
 
             {/* Center Logo */}
-            <div className="ap-flex-1 ap-text-center md:ap-flex-initial">
+            <div className="flex-1 text-center md:flex-initial">
               <Link
                 href={`/${currentLang}`}
-                className="ap-text-xl md:ap-text-2xl ap-font-light ap-tracking-[0.2em] ap-text-gray-900 hover:ap-text-gray-600 ap-transition-colors"
+                className="text-xl md:text-2xl font-light tracking-[0.2em] text-gray-900 hover:text-gray-600 transition-colors"
               >
                 yasu224
               </Link>
             </div>
 
             {/* Right Section - Desktop */}
-            <div className="ap-hidden md:ap-flex ap-items-center ap-space-x-6">
+            <div className="hidden md:flex items-center space-x-6">
               {/* Social Icons */}
-              <div className="ap-flex ap-items-center ap-space-x-4">
+              <div className="flex items-center space-x-4">
                 {socialLinks.map((social) => (
                   <a
                     key={social.icon}
                     href={social.href}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="ap-text-gray-700 hover:ap-text-gray-900 ap-transition-colors"
+                    className="text-gray-700 hover:text-gray-900 transition-colors"
                     aria-label={social.label}
                   >
                     {social.icon === "instagram" && <InstagramIcon />}
@@ -122,35 +122,35 @@ export function Navigation({ currentLang }: NavigationProps) {
               </div>
 
               {/* Language Switcher */}
-              <div className="ap-flex ap-items-center ap-space-x-2">
-                <span className="ap-text-sm ap-text-gray-600">
+              <div className="flex items-center space-x-2">
+                <span className="text-sm text-gray-600">
                   {currentLang === "ja" ? "🇯🇵" : "🇺🇸"}
                 </span>
                 <LanguageSwitcher currentLang={currentLang} />
               </div>
 
               {/* Cart */}
-              <div className="ap-flex ap-items-center">
+              <div className="flex items-center">
                 <button
                   type="button"
-                  className="ap-text-gray-700 hover:ap-text-gray-900 ap-transition-colors ap-flex ap-items-center ap-space-x-1"
+                  className="text-gray-700 hover:text-gray-900 transition-colors flex items-center space-x-1"
                   aria-label="Shopping cart"
                 >
                   <ShoppingCartIcon />
-                  <span className="ap-text-sm ap-font-medium">0</span>
+                  <span className="text-sm font-medium">0</span>
                 </button>
               </div>
             </div>
 
             {/* Mobile Cart */}
-            <div className="md:ap-hidden">
+            <div className="md:hidden">
               <button
                 type="button"
-                className="ap-text-gray-700 hover:ap-text-gray-900 ap-transition-colors ap-flex ap-items-center ap-space-x-1"
+                className="text-gray-700 hover:text-gray-900 transition-colors flex items-center space-x-1"
                 aria-label="Shopping cart"
               >
                 <ShoppingCartIcon />
-                <span className="ap-text-sm ap-font-medium">0</span>
+                <span className="text-sm font-medium">0</span>
               </button>
             </div>
           </div>
@@ -159,21 +159,21 @@ export function Navigation({ currentLang }: NavigationProps) {
 
       {/* Mobile Menu Overlay */}
       {isMobileMenuOpen && (
-        <div className="ap-fixed ap-inset-0 ap-bg-white ap-z-50 md:ap-hidden">
-          <div className="ap-flex ap-flex-col ap-h-full">
+        <div className="fixed inset-0 bg-white z-50 md:hidden">
+          <div className="flex flex-col h-full">
             {/* Header */}
-            <div className="ap-flex ap-items-center ap-justify-between ap-px-4 ap-py-4 ap-border-b ap-border-gray-100">
+            <div className="flex items-center justify-between px-4 py-4 border-b border-gray-100">
               <Link
                 href={`/${currentLang}`}
                 onClick={closeMobileMenu}
-                className="ap-text-xl ap-font-light ap-tracking-[0.2em] ap-text-gray-900"
+                className="text-xl font-light tracking-[0.2em] text-gray-900"
               >
                 yasu224
               </Link>
               <button
                 type="button"
                 onClick={closeMobileMenu}
-                className="ap-text-gray-700 hover:ap-text-gray-900 ap-transition-colors"
+                className="text-gray-700 hover:text-gray-900 transition-colors"
                 aria-label="Close menu"
               >
                 <CloseIcon />
@@ -181,16 +181,16 @@ export function Navigation({ currentLang }: NavigationProps) {
             </div>
 
             {/* Navigation Items */}
-            <div className="ap-flex ap-flex-col ap-flex-1 ap-px-4 ap-py-8 ap-space-y-8">
+            <div className="flex flex-col flex-1 px-4 py-8 space-y-8">
               {navigationItems.map((item) => (
                 <Link
                   key={item.key}
                   href={item.href}
                   onClick={closeMobileMenu}
-                  className={`ap-text-lg ap-font-medium ap-transition-colors hover:ap-text-gray-600 ${
+                  className={`text-lg font-medium transition-colors hover:text-gray-600 ${
                     pathname === item.href
-                      ? "ap-text-gray-900"
-                      : "ap-text-gray-700"
+                      ? "text-gray-900"
+                      : "text-gray-700"
                   }`}
                 >
                   {item.label}
@@ -199,33 +199,33 @@ export function Navigation({ currentLang }: NavigationProps) {
             </div>
 
             {/* Footer */}
-            <div className="ap-px-4 ap-py-8 ap-border-t ap-border-gray-100 ap-space-y-6">
+            <div className="px-4 py-8 border-t border-gray-100 space-y-6">
               {/* Social Icons */}
-              <div className="ap-flex ap-items-center ap-justify-center ap-space-x-6">
+              <div className="flex items-center justify-center space-x-6">
                 {socialLinks.map((social) => (
                   <a
                     key={social.icon}
                     href={social.href}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="ap-text-gray-700 hover:ap-text-gray-900 ap-transition-colors"
+                    className="text-gray-700 hover:text-gray-900 transition-colors"
                     aria-label={social.label}
                   >
                     {social.icon === "instagram" && (
-                      <InstagramIcon className="ap-w-6 ap-h-6" />
+                      <InstagramIcon className="w-6 h-6" />
                     )}
                     {social.icon === "tiktok" && (
-                      <TikTokIcon className="ap-w-6 ap-h-6" />
+                      <TikTokIcon className="w-6 h-6" />
                     )}
                   </a>
                 ))}
               </div>
 
               {/* Language Switcher */}
-              <div className="ap-flex ap-items-center ap-justify-center ap-space-x-2">
-                <span className="ap-text-sm ap-text-gray-600">🇫🇷 Français</span>
+              <div className="flex items-center justify-center space-x-2">
+                <span className="text-sm text-gray-600">🇫🇷 Français</span>
                 <svg
-                  className="ap-w-4 ap-h-4 ap-text-gray-400"
+                  className="w-4 h-4 text-gray-400"
                   fill="none"
                   stroke="currentColor"
                   viewBox="0 0 24 24"

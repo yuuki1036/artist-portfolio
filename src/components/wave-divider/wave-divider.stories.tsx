@@ -18,28 +18,28 @@ export const Gentle: Story = {
     <div>
       <div
         style={{
-          background: "rgb(var(--color-bg-primary))",
+          background: "var(--color-bg-primary)",
           height: 120,
           display: "flex",
           alignItems: "center",
           justifyContent: "center",
         }}
       >
-        <span style={{ color: "rgb(var(--color-text-primary))" }}>
+        <span style={{ color: "var(--color-text-primary)" }}>
           Section A (primary)
         </span>
       </div>
       <WaveDivider />
       <div
         style={{
-          background: "rgb(var(--color-bg-warm))",
+          background: "var(--color-bg-warm)",
           height: 120,
           display: "flex",
           alignItems: "center",
           justifyContent: "center",
         }}
       >
-        <span style={{ color: "rgb(var(--color-text-primary))" }}>
+        <span style={{ color: "var(--color-text-primary)" }}>
           Section B (warm)
         </span>
       </div>
@@ -52,28 +52,28 @@ export const Playful: Story = {
     <div>
       <div
         style={{
-          background: "rgb(var(--color-bg-primary))",
+          background: "var(--color-bg-primary)",
           height: 120,
           display: "flex",
           alignItems: "center",
           justifyContent: "center",
         }}
       >
-        <span style={{ color: "rgb(var(--color-text-primary))" }}>
+        <span style={{ color: "var(--color-text-primary)" }}>
           Section A (primary)
         </span>
       </div>
       <WaveDivider variant="playful" />
       <div
         style={{
-          background: "rgb(var(--color-bg-warm))",
+          background: "var(--color-bg-warm)",
           height: 120,
           display: "flex",
           alignItems: "center",
           justifyContent: "center",
         }}
       >
-        <span style={{ color: "rgb(var(--color-text-primary))" }}>
+        <span style={{ color: "var(--color-text-primary)" }}>
           Section B (warm)
         </span>
       </div>
@@ -86,58 +86,58 @@ export const AllTransitions: Story = {
     <div>
       <div
         style={{
-          background: "rgb(var(--color-bg-primary))",
+          background: "var(--color-bg-primary)",
           height: 100,
           display: "flex",
           alignItems: "center",
           justifyContent: "center",
         }}
       >
-        <span style={{ color: "rgb(var(--color-text-primary))" }}>Primary</span>
+        <span style={{ color: "var(--color-text-primary)" }}>Primary</span>
       </div>
       <WaveDivider variant="playful" />
       <div
         style={{
-          background: "rgb(var(--color-bg-warm))",
+          background: "var(--color-bg-warm)",
           height: 100,
           display: "flex",
           alignItems: "center",
           justifyContent: "center",
         }}
       >
-        <span style={{ color: "rgb(var(--color-text-primary))" }}>Warm</span>
+        <span style={{ color: "var(--color-text-primary)" }}>Warm</span>
       </div>
       <WaveDivider
-        topColor="rgb(var(--color-bg-warm))"
-        bottomColor="rgb(var(--color-bg-deep))"
+        topColor="var(--color-bg-warm)"
+        bottomColor="var(--color-bg-deep)"
       />
       <div
         style={{
-          background: "rgb(var(--color-bg-deep))",
+          background: "var(--color-bg-deep)",
           height: 100,
           display: "flex",
           alignItems: "center",
           justifyContent: "center",
         }}
       >
-        <span style={{ color: "rgb(var(--color-text-on-deep))" }}>Deep</span>
+        <span style={{ color: "var(--color-text-on-deep)" }}>Deep</span>
       </div>
       <WaveDivider
-        topColor="rgb(var(--color-bg-deep))"
-        bottomColor="rgb(var(--color-bg-primary))"
+        topColor="var(--color-bg-deep)"
+        bottomColor="var(--color-bg-primary)"
         flip
         variant="playful"
       />
       <div
         style={{
-          background: "rgb(var(--color-bg-primary))",
+          background: "var(--color-bg-primary)",
           height: 100,
           display: "flex",
           alignItems: "center",
           justifyContent: "center",
         }}
       >
-        <span style={{ color: "rgb(var(--color-text-primary))" }}>
+        <span style={{ color: "var(--color-text-primary)" }}>
           Primary again
         </span>
       </div>

@@ -20,8 +20,8 @@ const paths: Record<WaveVariant, string> = {
 };
 
 export function WaveDivider({
-  topColor = "rgb(var(--color-bg-primary))",
-  bottomColor = "rgb(var(--color-bg-warm))",
+  topColor = "var(--color-bg-primary)",
+  bottomColor = "var(--color-bg-warm)",
   flip = false,
   variant = "gentle",
   className,
