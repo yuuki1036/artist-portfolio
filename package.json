@@ -2,17 +2,14 @@
   "name": "yasu224",
   "version": "0.1.0",
   "private": true,
-  "engines": {
-    "node": ">=24"
-  },
   "scripts": {
     "dev": "next dev --turbopack",
     "build": "next build",
     "start": "next start",
-    "lint": "biome lint ./",
-    "lint:fix": "biome lint --write ./",
-    "format": "biome format ./",
-    "format:fix": "biome format --write ./",
+    "lint": "oxlint",
+    "lint:fix": "oxlint --fix",
+    "format": "oxfmt --check .",
+    "format:fix": "oxfmt --write .",
     "tsc": "tsgo --noEmit",
     "storybook": "storybook dev -p 6006",
     "build-storybook": "storybook build"
@@ -27,8 +24,6 @@
     "styled-components": "^6.1.14"
   },
   "devDependencies": {
-    "@biomejs/biome": "1.9.4",
-    "@eslint/eslintrc": "^3",
     "@storybook/addon-docs": "^9.0.6",
     "@storybook/addon-onboarding": "^9.0.6",
     "@storybook/nextjs": "^9.0.6",
@@ -36,13 +31,15 @@
     "@types/react": "^19",
     "@types/react-dom": "^19",
     "@typescript/native-preview": "^7.0.0-dev.20260320.1",
-    "eslint": "^9",
-    "eslint-config-next": "16.1.1",
-    "eslint-plugin-storybook": "^9.0.6",
+    "oxfmt": "^0.41.0",
+    "oxlint": "^1.56.0",
     "postcss": "^8",
     "storybook": "^9.0.6",
     "tailwindcss": "^3.4.1",
     "typescript": "^5"
+  },
+  "engines": {
+    "node": ">=24"
   },
   "packageManager": "npm@10.7.0"
 }
