@@ -35,7 +35,7 @@ export default async function LocaleLayout({ children, params }: Props) {
   const translations = await getTranslations(lang);
 
   return (
-    <div className="ap-relative ap-min-h-screen">
+    <div className="relative min-h-screen">
       <Navigation currentLang={lang} translations={translations} />
       <main>{children}</main>
     </div>

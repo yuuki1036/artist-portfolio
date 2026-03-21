@@ -59,15 +59,15 @@ export default async function HomePage({ params }: Props) {
       <WaveDivider variant="playful" />
 
       {/* Works Section */}
-      <section className="ap-bg-bg-warm ap-px-6 ap-py-24">
-        <div className="ap-max-w-6xl ap-mx-auto">
-          <div className="ap-flex ap-items-baseline ap-gap-4 ap-mb-16">
-            <h2 className="ap-text-4xl md:ap-text-5xl ap-font-black ap-text-text-primary ap-tracking-tight">
+      <section className="bg-bg-warm px-6 py-24">
+        <div className="max-w-6xl mx-auto">
+          <div className="flex items-baseline gap-4 mb-16">
+            <h2 className="text-4xl md:text-5xl font-black text-text-primary tracking-tight">
               {t.home.sections.works}
             </h2>
-            <span className="ap-h-1 ap-flex-1 ap-bg-text-primary/10 ap-rounded-full" />
+            <span className="h-1 flex-1 bg-text-primary/10 rounded-full" />
           </div>
-          <div className="ap-grid ap-grid-cols-2 md:ap-grid-cols-4 ap-gap-6 md:ap-gap-8 ap-items-start">
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-6 md:gap-8 items-start">
             {works.map((work) => (
               <WorkCard
                 key={work.src}
@@ -82,37 +82,33 @@ export default async function HomePage({ params }: Props) {
 
       {/* Works → Shop */}
       <WaveDivider
-        topColor="rgb(var(--color-bg-warm))"
-        bottomColor="rgb(var(--color-bg-deep))"
+        topColor="var(--color-bg-warm)"
+        bottomColor="var(--color-bg-deep)"
       />
 
       {/* Shop Section */}
-      <section className="ap-bg-bg-deep ap-px-6 ap-py-24">
-        <div className="ap-max-w-6xl ap-mx-auto">
-          <div className="ap-flex ap-items-baseline ap-gap-4 ap-mb-16">
-            <h2 className="ap-text-4xl md:ap-text-5xl ap-font-black ap-text-text-on-deep ap-tracking-tight">
+      <section className="bg-bg-deep px-6 py-24">
+        <div className="max-w-6xl mx-auto">
+          <div className="flex items-baseline gap-4 mb-16">
+            <h2 className="text-4xl md:text-5xl font-black text-text-on-deep tracking-tight">
               {t.home.sections.shop}
             </h2>
-            <span className="ap-h-1 ap-flex-1 ap-bg-text-on-deep/15 ap-rounded-full" />
+            <span className="h-1 flex-1 bg-text-on-deep/15 rounded-full" />
           </div>
-          <div className="ap-grid ap-grid-cols-1 sm:ap-grid-cols-3 ap-gap-6">
+          <div className="grid grid-cols-1 sm:grid-cols-3 gap-6">
             {shopItems.map((item) => (
               <div
                 key={item.title}
-                className="ap-bg-bg-primary/10 ap-backdrop-blur-sm ap-rounded-2xl ap-p-8 ap-text-center ap-border ap-border-text-on-deep/10 ap-transition-all ap-duration-300 hover:ap-bg-bg-primary/20 hover:ap-scale-105 hover:ap-shadow-xl"
+                className="bg-bg-primary/10 backdrop-blur-xs rounded-2xl p-8 text-center border border-text-on-deep/10 transition-all duration-300 hover:bg-bg-primary/20 hover:scale-105 hover:shadow-xl"
               >
-                <div className="ap-w-20 ap-h-20 ap-mx-auto ap-mb-6 ap-rounded-full ap-bg-bg-primary/15 ap-flex ap-items-center ap-justify-center">
-                  <span className="ap-text-3xl">🎨</span>
+                <div className="w-20 h-20 mx-auto mb-6 rounded-full bg-bg-primary/15 flex items-center justify-center">
+                  <span className="text-3xl">🎨</span>
                 </div>
-                <h3 className="ap-text-xl ap-font-bold ap-text-text-on-deep ap-mb-2">
+                <h3 className="text-xl font-bold text-text-on-deep mb-2">
                   {item.title}
                 </h3>
-                <p className="ap-text-2xl ap-font-black ap-text-accent">
-                  {item.price}
-                </p>
-                <p className="ap-text-sm ap-text-text-on-deep/60 ap-mt-3">
-                  Coming Soon
-                </p>
+                <p className="text-2xl font-black text-accent">{item.price}</p>
+                <p className="text-sm text-text-on-deep/60 mt-3">Coming Soon</p>
               </div>
             ))}
           </div>

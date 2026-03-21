@@ -1,19 +1,15 @@
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
+@import "tailwindcss";
 
-@layer base {
-  :root {
-    /* Background */
-    --color-bg-primary: 254 252 243; /* #FEFCF3 オフホワイト */
-    --color-bg-warm: 242 230 217; /* #F2E6D9 ベージュ */
-    --color-bg-deep: 91 127 110; /* #5B7F6E モスグリーン */
+@theme {
+  /* Background */
+  --color-bg-primary: #fefcf3; /* オフホワイト */
+  --color-bg-warm: #f2e6d9; /* ベージュ */
+  --color-bg-deep: #5b7f6e; /* モスグリーン */
 
-    /* Text */
-    --color-text-primary: 44 44 44; /* #2C2C2C ソフトブラック */
-    --color-text-on-deep: 254 252 243; /* #FEFCF3 深色背景上のテキスト */
+  /* Text */
+  --color-text-primary: #2c2c2c; /* ソフトブラック */
+  --color-text-on-deep: #fefcf3; /* 深色背景上のテキスト */
 
-    /* Accent */
-    --color-accent: 192 57 43; /* #C0392B 赤 */
-  }
+  /* Accent */
+  --color-accent: #c0392b; /* 赤 */
 }

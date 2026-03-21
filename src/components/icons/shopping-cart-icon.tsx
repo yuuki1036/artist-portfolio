@@ -4,7 +4,7 @@ type IconProps = {
 };
 
 export function ShoppingCartIcon({
-  className = "ap-w-5 ap-h-5",
+  className = "w-5 h-5",
   "aria-label": ariaLabel,
 }: IconProps) {
   return (

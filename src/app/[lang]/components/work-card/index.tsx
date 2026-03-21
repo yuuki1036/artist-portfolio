@@ -9,21 +9,21 @@ type Props = {
 export function WorkCard({ src, title, rotation = 0 }: Props) {
   return (
     <div
-      className="ap-group ap-relative ap-cursor-pointer"
+      className="group relative cursor-pointer"
       style={{ transform: `rotate(${rotation}deg)` }}
     >
-      <div className="ap-relative ap-overflow-hidden ap-rounded-xl ap-shadow-lg ap-transition-all ap-duration-300 group-hover:ap-shadow-2xl group-hover:ap-scale-105 group-hover:ap-rotate-0">
+      <div className="relative overflow-hidden rounded-xl shadow-lg transition-all duration-300 group-hover:shadow-2xl group-hover:scale-105 group-hover:rotate-0">
         <Image
           src={src}
           alt={title}
           width={600}
           height={600}
           sizes="(max-width: 768px) 50vw, 25vw"
-          className="ap-w-full ap-h-auto ap-object-cover ap-transition-transform ap-duration-500 group-hover:ap-scale-110"
+          className="w-full h-auto object-cover transition-transform duration-500 group-hover:scale-110"
         />
         {/* Hover overlay with title */}
-        <div className="ap-absolute ap-inset-0 ap-bg-gradient-to-t ap-from-black/70 ap-via-black/20 ap-to-transparent ap-opacity-0 ap-transition-opacity ap-duration-300 group-hover:ap-opacity-100 ap-flex ap-items-end ap-p-4">
-          <p className="ap-text-white ap-font-bold ap-text-lg ap-translate-y-4 ap-transition-transform ap-duration-300 group-hover:ap-translate-y-0">
+        <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/20 to-transparent opacity-0 transition-opacity duration-300 group-hover:opacity-100 flex items-end p-4">
+          <p className="text-white font-bold text-lg translate-y-4 transition-transform duration-300 group-hover:translate-y-0">
             {title}
           </p>
         </div>

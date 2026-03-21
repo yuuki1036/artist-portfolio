@@ -4,7 +4,7 @@ type IconProps = {
 };
 
 export function HamburgerMenuIcon({
-  className = "ap-w-6 ap-h-6",
+  className = "w-6 h-6",
   "aria-label": ariaLabel,
 }: IconProps) {
   return (

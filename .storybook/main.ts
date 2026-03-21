@@ -8,5 +8,12 @@ const config: StorybookConfig = {
     options: {},
   },
   staticDirs: ["../public"],
+  async viteFinal(config) {
+    const { mergeConfig } = await import("vite");
+    const tailwindcss = await import("@tailwindcss/vite");
+    return mergeConfig(config, {
+      plugins: [tailwindcss.default()],
+    });
+  },
 };
 export default config;
