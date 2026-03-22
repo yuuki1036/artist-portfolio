@@ -13,23 +13,37 @@ import {
   CloseIcon,
 } from "@/components/icons";
 
+type MenuTranslations = {
+  home: string;
+  original: string;
+  works: string;
+  shop: string;
+  about: string;
+  contact: string;
+};
+
+const defaultMenu: MenuTranslations = {
+  home: "Home",
+  original: "Original",
+  works: "Works",
+  shop: "Shop",
+  about: "About",
+  contact: "Contact",
+};
+
 type NavigationProps = {
   currentLang: Locale;
   translations: {
     common?: {
-      menu?: {
-        home?: string;
-        works?: string;
-        about?: string;
-        contact?: string;
-      };
+      menu?: Partial<MenuTranslations>;
     };
   };
 };
 
-export function Navigation({ currentLang }: NavigationProps) {
+export function Navigation({ currentLang, translations }: NavigationProps) {
   const pathname = usePathname();
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+  const menu = { ...defaultMenu, ...translations?.common?.menu };
 
   const toggleMobileMenu = () => {
     setIsMobileMenuOpen(!isMobileMenuOpen);
@@ -40,9 +54,21 @@ export function Navigation({ currentLang }: NavigationProps) {
   };
 
   const navigationItems = [
-    { key: "original", label: "Original", href: `/${currentLang}/original` },
-    { key: "shop", label: "Shop", href: `/${currentLang}/shop` },
-    { key: "contact", label: "Contact", href: `/${currentLang}/contact` },
+    {
+      key: "original",
+      label: menu.original,
+      href: `/${currentLang}/original`,
+    },
+    {
+      key: "shop",
+      label: menu.shop,
+      href: `/${currentLang}/shop`,
+    },
+    {
+      key: "contact",
+      label: menu.contact,
+      href: `/${currentLang}/contact`,
+    },
   ];
 
   const socialLinks = [
@@ -60,7 +86,7 @@ export function Navigation({ currentLang }: NavigationProps) {
 
   return (
     <>
-      <nav className="w-full bg-white border-b border-gray-100">
+      <nav className="w-full bg-bg-primary border-b border-text-primary/10">
         <div className="max-w-7xl mx-auto px-4 py-4">
           <div className="flex items-center justify-between">
             {/* Mobile Menu Button */}
@@ -68,7 +94,7 @@ export function Navigation({ currentLang }: NavigationProps) {
               <button
                 type="button"
                 onClick={toggleMobileMenu}
-                className="text-gray-700 hover:text-gray-900 transition-colors"
+                className="text-text-primary hover:text-text-primary/70 transition-colors"
                 aria-label="Toggle mobile menu"
               >
                 <HamburgerMenuIcon />
@@ -81,10 +107,10 @@ export function Navigation({ currentLang }: NavigationProps) {
                 <Link
                   key={item.key}
                   href={item.href}
-                  className={`text-sm font-medium transition-colors hover:text-gray-600 ${
+                  className={`text-sm font-medium transition-colors hover:text-text-primary/70 ${
                     pathname === item.href
-                      ? "text-gray-900 border-b-2 border-gray-900 pb-1"
-                      : "text-gray-700"
+                      ? "text-text-primary border-b-2 border-text-primary pb-1"
+                      : "text-text-primary/70"
                   }`}
                 >
                   {item.label}
@@ -96,7 +122,7 @@ export function Navigation({ currentLang }: NavigationProps) {
             <div className="flex-1 text-center md:flex-initial">
               <Link
                 href={`/${currentLang}`}
-                className="text-xl md:text-2xl font-light tracking-[0.2em] text-gray-900 hover:text-gray-600 transition-colors"
+                className="text-xl md:text-2xl font-light tracking-[0.2em] text-text-primary hover:text-text-primary/70 transition-colors"
               >
                 yasu224
               </Link>
@@ -112,7 +138,7 @@ export function Navigation({ currentLang }: NavigationProps) {
                     href={social.href}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="text-gray-700 hover:text-gray-900 transition-colors"
+                    className="text-text-primary hover:text-text-primary/70 transition-colors"
                     aria-label={social.label}
                   >
                     {social.icon === "instagram" && <InstagramIcon />}
@@ -123,7 +149,7 @@ export function Navigation({ currentLang }: NavigationProps) {
 
               {/* Language Switcher */}
               <div className="flex items-center space-x-2">
-                <span className="text-sm text-gray-600">
+                <span className="text-sm text-text-primary/70">
                   {currentLang === "ja" ? "🇯🇵" : "🇺🇸"}
                 </span>
                 <LanguageSwitcher currentLang={currentLang} />
@@ -133,7 +159,7 @@ export function Navigation({ currentLang }: NavigationProps) {
               <div className="flex items-center">
                 <button
                   type="button"
-                  className="text-gray-700 hover:text-gray-900 transition-colors flex items-center space-x-1"
+                  className="text-text-primary hover:text-text-primary/70 transition-colors flex items-center space-x-1"
                   aria-label="Shopping cart"
                 >
                   <ShoppingCartIcon />
@@ -146,7 +172,7 @@ export function Navigation({ currentLang }: NavigationProps) {
             <div className="md:hidden">
               <button
                 type="button"
-                className="text-gray-700 hover:text-gray-900 transition-colors flex items-center space-x-1"
+                className="text-text-primary hover:text-text-primary/70 transition-colors flex items-center space-x-1"
                 aria-label="Shopping cart"
               >
                 <ShoppingCartIcon />
@@ -159,21 +185,21 @@ export function Navigation({ currentLang }: NavigationProps) {
 
       {/* Mobile Menu Overlay */}
       {isMobileMenuOpen && (
-        <div className="fixed inset-0 bg-white z-50 md:hidden">
+        <div className="fixed inset-0 bg-bg-primary z-50 md:hidden">
           <div className="flex flex-col h-full">
             {/* Header */}
-            <div className="flex items-center justify-between px-4 py-4 border-b border-gray-100">
+            <div className="flex items-center justify-between px-4 py-4 border-b border-text-primary/10">
               <Link
                 href={`/${currentLang}`}
                 onClick={closeMobileMenu}
-                className="text-xl font-light tracking-[0.2em] text-gray-900"
+                className="text-xl font-light tracking-[0.2em] text-text-primary"
               >
                 yasu224
               </Link>
               <button
                 type="button"
                 onClick={closeMobileMenu}
-                className="text-gray-700 hover:text-gray-900 transition-colors"
+                className="text-text-primary hover:text-text-primary/70 transition-colors"
                 aria-label="Close menu"
               >
                 <CloseIcon />
@@ -187,8 +213,10 @@ export function Navigation({ currentLang }: NavigationProps) {
                   key={item.key}
                   href={item.href}
                   onClick={closeMobileMenu}
-                  className={`text-lg font-medium transition-colors hover:text-gray-600 ${
-                    pathname === item.href ? "text-gray-900" : "text-gray-700"
+                  className={`text-lg font-medium transition-colors hover:text-text-primary/70 ${
+                    pathname === item.href
+                      ? "text-text-primary"
+                      : "text-text-primary/70"
                   }`}
                 >
                   {item.label}
@@ -197,7 +225,7 @@ export function Navigation({ currentLang }: NavigationProps) {
             </div>
 
             {/* Footer */}
-            <div className="px-4 py-8 border-t border-gray-100 space-y-6">
+            <div className="px-4 py-8 border-t border-text-primary/10 space-y-6">
               {/* Social Icons */}
               <div className="flex items-center justify-center space-x-6">
                 {socialLinks.map((social) => (
@@ -206,7 +234,7 @@ export function Navigation({ currentLang }: NavigationProps) {
                     href={social.href}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="text-gray-700 hover:text-gray-900 transition-colors"
+                    className="text-text-primary hover:text-text-primary/70 transition-colors"
                     aria-label={social.label}
                   >
                     {social.icon === "instagram" && (
@@ -221,22 +249,10 @@ export function Navigation({ currentLang }: NavigationProps) {
 
               {/* Language Switcher */}
               <div className="flex items-center justify-center space-x-2">
-                <span className="text-sm text-gray-600">🇫🇷 Français</span>
-                <svg
-                  className="w-4 h-4 text-gray-400"
-                  fill="none"
-                  stroke="currentColor"
-                  viewBox="0 0 24 24"
-                  role="img"
-                  aria-label="Language options"
-                >
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    strokeWidth={2}
-                    d="M9 5l7 7-7 7"
-                  />
-                </svg>
+                <span className="text-sm text-text-primary/70">
+                  {currentLang === "ja" ? "🇯🇵" : "🇺🇸"}
+                </span>
+                <LanguageSwitcher currentLang={currentLang} />
               </div>
             </div>
           </div>
