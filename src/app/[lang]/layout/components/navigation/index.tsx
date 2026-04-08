@@ -13,23 +13,16 @@ import {
   CloseIcon,
 } from "@/components/icons";
 
-type MenuTranslations = {
-  home: string;
-  original: string;
-  works: string;
-  shop: string;
-  about: string;
-  contact: string;
-};
-
-const defaultMenu: MenuTranslations = {
+const defaultMenu = {
   home: "Home",
   original: "Original",
   works: "Works",
   shop: "Shop",
   about: "About",
   contact: "Contact",
-};
+} as const;
+
+type MenuTranslations = Record<keyof typeof defaultMenu, string>;
 
 type NavigationProps = {
   currentLang: Locale;
