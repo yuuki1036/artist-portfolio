@@ -17,7 +17,9 @@ export function LanguageSwitcher({ currentLang }: LanguageSwitcherProps) {
   const nextLocale = i18n.locales[nextIndex];
 
   const handleLanguageChange = () => {
-    const newPath = pathname.replace(/^\/(ja|en)/, `/${nextLocale}`);
+    const localePattern = new RegExp(`^/(?:${i18n.locales.join("|")})(?=/|$)`);
+    const newPath =
+      pathname.replace(localePattern, `/${nextLocale}`) || `/${nextLocale}`;
     router.push(newPath);
   };
 
