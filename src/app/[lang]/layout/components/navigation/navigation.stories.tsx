@@ -6,9 +6,7 @@ const translations = {
   ja: {
     common: {
       menu: {
-        home: "ホーム",
         original: "Original",
-        works: "作品",
         shop: "Shop",
         about: "プロフィール",
         contact: "お問い合わせ",
@@ -18,9 +16,7 @@ const translations = {
   en: {
     common: {
       menu: {
-        home: "Home",
         original: "Original",
-        works: "Works",
         shop: "Shop",
         about: "About",
         contact: "Contact",

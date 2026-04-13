@@ -14,9 +14,7 @@ import {
 } from "@/components/icons";
 
 const defaultMenu = {
-  home: "Home",
   original: "Original",
-  works: "Works",
   shop: "Shop",
   about: "About",
   contact: "Contact",
@@ -56,6 +54,11 @@ export function Navigation({ currentLang, translations }: NavigationProps) {
       key: "shop",
       label: menu.shop,
       href: `/${currentLang}/shop`,
+    },
+    {
+      key: "about",
+      label: menu.about,
+      href: `/${currentLang}/about`,
     },
     {
       key: "contact",
