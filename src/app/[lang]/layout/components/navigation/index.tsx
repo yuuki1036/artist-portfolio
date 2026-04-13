@@ -44,6 +44,11 @@ export function Navigation({ currentLang, translations }: NavigationProps) {
       href: `/${currentLang}/shop`,
     },
     {
+      key: "about",
+      label: menu.about,
+      href: `/${currentLang}/about`,
+    },
+    {
       key: "contact",
       label: menu.contact,
       href: `/${currentLang}/contact`,
