@@ -1,13 +1,9 @@
 import type { Locale } from "./settings";
+import type { Translations } from "./types";
 
-export async function getTranslations(locale: Locale) {
-  try {
-    const translations = await import(`../../public/locales/${locale}.json`);
-    return translations.default;
-  } catch (error) {
-    console.error(`Failed to load translations for locale: ${locale}`, error);
-    return {};
-  }
+export async function getTranslations(locale: Locale): Promise<Translations> {
+  const translations = await import(`../../public/locales/${locale}.json`);
+  return translations.default as Translations;
 }
 
 export function getLocaleFromPathname(pathname: string): Locale {

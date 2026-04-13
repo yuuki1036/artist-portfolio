@@ -1,10 +1,12 @@
 import type { Meta, StoryObj } from "@storybook/nextjs-vite";
+import type { Translations } from "@/i18n/types";
 import { Navigation } from "./index";
 
 // Translation data
-const translations = {
+const translations: Record<"ja" | "en", Translations> = {
   ja: {
     common: {
+      title: "yasu224",
       menu: {
         original: "Original",
         shop: "Shop",
@@ -12,15 +14,32 @@ const translations = {
         contact: "お問い合わせ",
       },
     },
+    home: {
+      hero: {
+        greeting: "こんにちは、",
+        name: "yasu224",
+        tagline: "イラストで、日常をちょっと楽しく。",
+      },
+      sections: { works: "Works", shop: "Shop" },
+    },
   },
   en: {
     common: {
+      title: "yasu224",
       menu: {
         original: "Original",
         shop: "Shop",
         about: "About",
         contact: "Contact",
       },
+    },
+    home: {
+      hero: {
+        greeting: "Hello, I'm",
+        name: "yasu224",
+        tagline: "Making everyday life a little more fun with illustration.",
+      },
+      sections: { works: "Works", shop: "Shop" },
     },
   },
 };

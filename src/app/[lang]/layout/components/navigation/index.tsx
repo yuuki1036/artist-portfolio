@@ -4,6 +4,7 @@ import { useState } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import type { Locale } from "@/i18n/settings";
+import type { Translations } from "@/i18n/types";
 import { LanguageSwitcher } from "@/app/[lang]/layout/components/language-switcher";
 import {
   InstagramIcon,
@@ -13,28 +14,15 @@ import {
   CloseIcon,
 } from "@/components/icons";
 
-const defaultMenu = {
-  original: "Original",
-  shop: "Shop",
-  about: "About",
-  contact: "Contact",
-} as const;
-
-type MenuTranslations = Record<keyof typeof defaultMenu, string>;
-
 type NavigationProps = {
   currentLang: Locale;
-  translations: {
-    common?: {
-      menu?: Partial<MenuTranslations>;
-    };
-  };
+  translations: Translations;
 };
 
 export function Navigation({ currentLang, translations }: NavigationProps) {
   const pathname = usePathname();
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
-  const menu = { ...defaultMenu, ...translations?.common?.menu };
+  const menu = translations.common.menu;
 
   const toggleMobileMenu = () => {
     setIsMobileMenuOpen(!isMobileMenuOpen);

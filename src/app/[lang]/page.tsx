@@ -1,6 +1,5 @@
 import type { Metadata } from "next";
 import { getTranslations } from "@/i18n/utils";
-import type { Locale } from "@/i18n/settings";
 import { isValidLocale, i18n } from "@/i18n/settings";
 import { redirect } from "next/navigation";
 import { HeroSection } from "./components/hero-section";
@@ -36,7 +35,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
     return {};
   }
 
-  const t = await getTranslations(lang as Locale);
+  const t = await getTranslations(lang);
   return {
     title: t.common.title,
   };
@@ -48,7 +47,7 @@ export default async function HomePage({ params }: Props) {
     redirect(`/${i18n.defaultLocale}`);
   }
 
-  const t = await getTranslations(lang as Locale);
+  const t = await getTranslations(lang);
 
   return (
     <>
