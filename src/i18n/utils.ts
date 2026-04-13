@@ -1,9 +1,7 @@
 import type { Locale } from "./settings";
 import type { Translations } from "./types";
 
-export async function getTranslations(
-  locale: Locale,
-): Promise<Translations> {
+export async function getTranslations(locale: Locale): Promise<Translations> {
   const translations = await import(`../../public/locales/${locale}.json`);
   return translations.default as Translations;
 }
