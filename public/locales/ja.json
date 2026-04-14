@@ -6,6 +6,13 @@
       "shop": "Shop",
       "about": "プロフィール",
       "contact": "お問い合わせ"
+    },
+    "footer": {
+      "copyright": "© 2026 yasu224. All rights reserved.",
+      "social": {
+        "instagram": "Instagram",
+        "tiktok": "TikTok"
+      }
     }
   },
   "home": {
