@@ -5,6 +5,10 @@ import { isValidLocale, i18n } from "@/i18n/settings";
 import { getTranslations } from "@/i18n/utils";
 import { ProductCard } from "./components/product-card";
 
+// 商品在庫・公開状態がランタイムで変わるため、静的生成せず
+// リクエストごとにレンダリングする。
+export const dynamic = "force-dynamic";
+
 const LOW_STOCK_THRESHOLD = 5;
 
 type Props = {
