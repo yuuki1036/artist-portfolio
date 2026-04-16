@@ -25,5 +25,11 @@
       "works": "Works",
       "shop": "Shop"
     }
+  },
+  "shop": {
+    "title": "Shop",
+    "empty": "現在販売中の商品はありません。",
+    "soldOut": "売り切れ",
+    "lowStock": "残り{count}点"
   }
 }
