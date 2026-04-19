@@ -30,6 +30,15 @@
     "title": "Shop",
     "empty": "現在販売中の商品はありません。",
     "soldOut": "売り切れ",
-    "lowStock": "残り{count}点"
+    "lowStock": "残り{count}点",
+    "detail": {
+      "back": "一覧に戻る",
+      "descriptionHeading": "商品について",
+      "sizeHeading": "サイズ",
+      "buy": "購入する",
+      "comingSoon": "準備中",
+      "notFoundTitle": "商品が見つかりませんでした",
+      "notFoundDescription": "お探しの商品は非公開または削除された可能性があります。"
+    }
   }
 }
