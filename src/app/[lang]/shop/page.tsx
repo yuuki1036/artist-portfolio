@@ -4,12 +4,11 @@ import { prisma } from "@/lib/prisma";
 import { isValidLocale, i18n } from "@/i18n/settings";
 import { getTranslations } from "@/i18n/utils";
 import { ProductCard } from "./components/product-card";
+import { resolveStockLabel } from "./_lib/stock-label";
 
 // 商品在庫・公開状態がランタイムで変わるため、静的生成せず
 // リクエストごとにレンダリングする。
 export const dynamic = "force-dynamic";
-
-const LOW_STOCK_THRESHOLD = 5;
 
 type Props = {
   params: Promise<{
@@ -42,13 +41,7 @@ export default async function ShopPage({ params }: Props) {
     orderBy: { publishedAt: "desc" },
   });
 
-  const resolveStockLabel = (remaining: number): string | undefined => {
-    if (remaining <= 0) return t.shop.soldOut;
-    if (remaining <= LOW_STOCK_THRESHOLD) {
-      return t.shop.lowStock.replace("{count}", String(remaining));
-    }
-    return undefined;
-  };
+  const stockLabels = { soldOut: t.shop.soldOut, lowStock: t.shop.lowStock };
 
   return (
     <section className="bg-bg-primary px-6 py-24 min-h-screen">
@@ -78,7 +71,10 @@ export default async function ShopPage({ params }: Props) {
                     title={title}
                     imageUrl={imageUrl}
                     priceJpy={product.priceJpy}
-                    stockLabel={resolveStockLabel(product.stockRemaining)}
+                    stockLabel={resolveStockLabel(
+                      product.stockRemaining,
+                      stockLabels,
+                    )}
                     isSoldOut={isSoldOut}
                   />
                 </li>
