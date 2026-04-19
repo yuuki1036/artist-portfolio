@@ -1,3 +1,4 @@
+import { PrismaPg } from "@prisma/adapter-pg";
 import { PrismaClient } from "@prisma/client";
 
 // Next.js の HMR でインスタンスが複製されるのを防ぐため、
@@ -8,7 +9,12 @@ const globalForPrisma = globalThis as unknown as {
 
 function getClient(): PrismaClient {
   if (!globalForPrisma.prisma) {
-    globalForPrisma.prisma = new PrismaClient();
+    const connectionString = process.env.DATABASE_URL;
+    if (!connectionString) {
+      throw new Error("DATABASE_URL is not set");
+    }
+    const adapter = new PrismaPg({ connectionString });
+    globalForPrisma.prisma = new PrismaClient({ adapter });
   }
   return globalForPrisma.prisma;
 }

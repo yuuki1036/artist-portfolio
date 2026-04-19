@@ -1,5 +1,7 @@
 import Image from "next/image";
 import Link from "next/link";
+import { StockBadge } from "../../_components/stock-badge";
+import { formatJpy } from "../../_lib/format-price";
 
 type Props = {
   slug: string;
@@ -20,8 +22,6 @@ export function ProductCard({
   stockLabel,
   isSoldOut = false,
 }: Props) {
-  const formattedPrice = `¥${priceJpy.toLocaleString("ja-JP")}`;
-
   return (
     <Link
       href={`/${lang}/shop/${slug}`}
@@ -40,22 +40,21 @@ export function ProductCard({
             }`}
           />
           {stockLabel ? (
-            <span
-              className={`absolute top-3 right-3 px-3 py-1 rounded-full text-xs font-bold tracking-wide ${
-                isSoldOut
-                  ? "bg-text-primary/80 text-bg-primary"
-                  : "bg-accent text-white"
-              }`}
-            >
-              {stockLabel}
-            </span>
+            <div className="absolute top-3 right-3">
+              <StockBadge
+                label={stockLabel}
+                variant={isSoldOut ? "soldOut" : "lowStock"}
+              />
+            </div>
           ) : null}
         </div>
         <div className="p-5">
           <h3 className="text-base font-bold text-text-primary line-clamp-2 mb-2">
             {title}
           </h3>
-          <p className="text-xl font-black text-accent">{formattedPrice}</p>
+          <p className="text-xl font-black text-accent">
+            {formatJpy(priceJpy)}
+          </p>
         </div>
       </div>
     </Link>
