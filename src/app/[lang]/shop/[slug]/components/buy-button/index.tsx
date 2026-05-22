@@ -1,24 +1,64 @@
+"use client";
+
+import { useRouter } from "next/navigation";
+import { useState, useTransition } from "react";
+import type { Locale } from "@/i18n/settings";
+
 type Props = {
+  productId: string;
+  locale: Locale;
   isSoldOut: boolean;
   labels: {
     buy: string;
     comingSoon: string;
+    error: string;
   };
 };
 
-export function BuyButton({ isSoldOut, labels }: Props) {
+export function BuyButton({ productId, locale, isSoldOut, labels }: Props) {
+  const router = useRouter();
+  const [isPending, startTransition] = useTransition();
+  const [error, setError] = useState<string | null>(null);
+
+  const handleClick = () => {
+    setError(null);
+    startTransition(async () => {
+      try {
+        const res = await fetch("/api/checkout", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ productId, locale }),
+        });
+        if (!res.ok) {
+          setError(labels.error);
+          return;
+        }
+        const { orderId } = (await res.json()) as { orderId: string };
+        router.push(`/${locale}/checkout/${orderId}`);
+      } catch {
+        setError(labels.error);
+      }
+    });
+  };
+
+  const disabled = isSoldOut || isPending;
   const mainLabel = isSoldOut ? labels.comingSoon : labels.buy;
 
   return (
-    <button
-      type="button"
-      disabled
-      className="inline-flex items-center justify-center gap-2 w-full md:w-auto md:self-start px-10 py-4 rounded-full bg-accent text-white font-black text-base tracking-wide transition-opacity disabled:opacity-50 disabled:cursor-not-allowed"
-    >
-      <span>{mainLabel}</span>
-      <span className="text-xs font-bold opacity-80">
-        ({labels.comingSoon})
-      </span>
-    </button>
+    <div className="w-full md:w-auto md:self-start flex flex-col gap-2">
+      <button
+        type="button"
+        onClick={handleClick}
+        disabled={disabled}
+        className="inline-flex items-center justify-center gap-2 w-full md:w-auto px-10 py-4 rounded-full bg-accent text-white font-black text-base tracking-wide transition-opacity disabled:opacity-50 disabled:cursor-not-allowed"
+      >
+        <span>{mainLabel}</span>
+      </button>
+      {error && (
+        <p className="text-sm text-accent" role="alert">
+          {error}
+        </p>
+      )}
+    </div>
   );
 }

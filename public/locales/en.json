@@ -13,6 +13,12 @@
         "instagram": "Instagram",
         "tiktok": "TikTok"
       }
+    },
+    "error": {
+      "title": "Something went wrong",
+      "description": "An unexpected error occurred. Please try again in a moment.",
+      "retry": "Try again",
+      "home": "Back to home"
     }
   },
   "home": {
@@ -39,6 +45,33 @@
       "comingSoon": "Coming soon",
       "notFoundTitle": "Product not found",
       "notFoundDescription": "The product you're looking for may be unpublished or removed."
+    }
+  },
+  "checkout": {
+    "title": "Checkout",
+    "summaryHeading": "Order summary",
+    "subtotal": "Subtotal",
+    "shippingFee": "Shipping",
+    "shippingFeeUndetermined": "Calculated after address",
+    "total": "Total",
+    "addressHeading": "Shipping address",
+    "paymentHeading": "Payment details",
+    "submit": "Pay now",
+    "submitting": "Processing…",
+    "back": "Back to product",
+    "errors": {
+      "generic": "Payment failed. Please try again.",
+      "outOfStock": "Sorry, this item is out of stock.",
+      "notFoundTitle": "Order not found",
+      "notFoundDescription": "The URL may be incorrect, or the order may have been removed."
+    },
+    "success": {
+      "title": "Thank you for your purchase",
+      "description": "Your order has been received. A confirmation email has been sent to {email}.",
+      "processingTitle": "Processing your payment",
+      "processingDescription": "Please wait while we confirm your payment. A confirmation email will be sent once it completes.",
+      "orderId": "Order ID",
+      "backToShop": "Back to shop"
     }
   }
 }

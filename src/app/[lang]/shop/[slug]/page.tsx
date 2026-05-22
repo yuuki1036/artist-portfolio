@@ -121,10 +121,13 @@ export default async function ProductDetailPage({ params }: Props) {
               }}
             />
             <BuyButton
+              productId={product.id}
+              locale={lang}
               isSoldOut={isSoldOut}
               labels={{
                 buy: t.shop.detail.buy,
                 comingSoon: t.shop.detail.comingSoon,
+                error: t.checkout.errors.generic,
               }}
             />
           </div>
