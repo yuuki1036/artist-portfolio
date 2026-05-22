@@ -13,6 +13,12 @@
         "instagram": "Instagram",
         "tiktok": "TikTok"
       }
+    },
+    "error": {
+      "title": "問題が発生しました",
+      "description": "予期しないエラーが発生しました。しばらくしてからもう一度お試しください。",
+      "retry": "再試行",
+      "home": "ホームに戻る"
     }
   },
   "home": {
@@ -39,6 +45,33 @@
       "comingSoon": "準備中",
       "notFoundTitle": "商品が見つかりませんでした",
       "notFoundDescription": "お探しの商品は非公開または削除された可能性があります。"
+    }
+  },
+  "checkout": {
+    "title": "お支払い",
+    "summaryHeading": "ご注文内容",
+    "subtotal": "小計",
+    "shippingFee": "配送料",
+    "shippingFeeUndetermined": "配送先選択後に確定",
+    "total": "合計",
+    "addressHeading": "お届け先",
+    "paymentHeading": "お支払い情報",
+    "submit": "この内容で支払う",
+    "submitting": "処理中…",
+    "back": "商品ページに戻る",
+    "errors": {
+      "generic": "決済処理に失敗しました。もう一度お試しください。",
+      "outOfStock": "申し訳ありません、在庫切れです。",
+      "notFoundTitle": "ご注文が見つかりませんでした",
+      "notFoundDescription": "URL が誤っているか、注文が削除された可能性があります。"
+    },
+    "success": {
+      "title": "ご購入ありがとうございました",
+      "description": "ご注文を承りました。確認メールを {email} 宛にお送りしています。",
+      "processingTitle": "決済を処理中です",
+      "processingDescription": "決済の確定までしばらくお待ちください。確定後、確認メールをお送りします。",
+      "orderId": "注文番号",
+      "backToShop": "ショップに戻る"
     }
   }
 }
