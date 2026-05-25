@@ -134,6 +134,8 @@ model Order {
   // Stripe 連携
   stripePaymentIntentId   String      @unique
   stripeCheckoutSessionId String?
+  // 秘匿: ログ禁止・管理画面表示時は select で除外すること
+  stripeClientSecret      String?
   // 購入者情報
   customerEmail           String
   customerName            String?
@@ -160,6 +162,8 @@ model Order {
   // リレーション
   items OrderItem[]
 
+  // TTL クリーンアップ cron の WHERE status = ? AND createdAt < ? 用
+  @@index([status, createdAt])
   @@map("orders")
 }
 
