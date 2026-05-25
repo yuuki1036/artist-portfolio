@@ -1,0 +1,35 @@
+name: Cleanup Pending Orders
+
+on:
+  schedule:
+    # 30 分ごとに /api/cron/cleanup-pending-orders を叩く
+    # Vercel Hobby プランの Cron は 1 日 1 回上限のため、外部 cron として GitHub Actions schedule を採用
+    - cron: "*/30 * * * *"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: ${{ github.workflow }}
+  cancel-in-progress: false
+
+jobs:
+  cleanup:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Trigger cleanup endpoint
+        env:
+          CRON_SECRET: ${{ secrets.CRON_SECRET }}
+          SITE_URL: ${{ secrets.SITE_URL }}
+        run: |
+          if [ -z "$CRON_SECRET" ] || [ -z "$SITE_URL" ]; then
+            echo "CRON_SECRET / SITE_URL secrets are not configured"
+            exit 1
+          fi
+          response=$(curl --silent --show-error --fail-with-body \
+            --max-time 60 \
+            --write-out "\nHTTP_STATUS:%{http_code}\n" \
+            -H "Authorization: Bearer ${CRON_SECRET}" \
+            "${SITE_URL}/api/cron/cleanup-pending-orders")
+          echo "$response"

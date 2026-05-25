@@ -1,6 +1,7 @@
 import { NextResponse } from "next/server";
 import type Stripe from "stripe";
 import { prisma } from "@/lib/prisma";
+import { releasePendingOrder } from "@/lib/release-pending-order";
 import { getStripe } from "@/lib/stripe";
 
 export async function POST(request: Request) {
@@ -79,25 +80,10 @@ async function handlePaymentSucceeded(pi: Stripe.PaymentIntent) {
 async function handlePaymentReleased(pi: Stripe.PaymentIntent) {
   const order = await prisma.order.findUnique({
     where: { stripePaymentIntentId: pi.id },
-    include: { items: true },
+    select: { id: true },
   });
-  if (!order || order.status !== "PENDING") {
+  if (!order) {
     return;
   }
-
-  await prisma.$transaction(async (tx) => {
-    const cancelled = await tx.order.updateMany({
-      where: { id: order.id, status: "PENDING" },
-      data: { status: "CANCELED" },
-    });
-    if (cancelled.count === 0) {
-      return;
-    }
-    for (const item of order.items) {
-      await tx.product.update({
-        where: { id: item.productId },
-        data: { stockRemaining: { increment: item.quantity } },
-      });
-    }
-  });
+  await releasePendingOrder(order.id);
 }
