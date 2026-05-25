@@ -13,18 +13,17 @@ import {
   type StripeAddressElementChangeEvent,
 } from "@stripe/stripe-js";
 import { useState } from "react";
-import { formatJpy } from "@/app/[lang]/shop/_lib/format-price";
 import { ALLOWED_COUNTRIES } from "@/app/[lang]/shop/_lib/shipping-rate";
 import type { Locale } from "@/i18n/settings";
+import {
+  PaymentSummary,
+  type PaymentSummaryTranslations,
+} from "./payment-summary";
 
 const publishableKey = process.env.NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY;
 const stripePromise = publishableKey ? loadStripe(publishableKey) : null;
 
-type Translations = {
-  summaryHeading: string;
-  subtotal: string;
-  shippingFee: string;
-  total: string;
+type Translations = PaymentSummaryTranslations & {
   addressHeading: string;
   paymentHeading: string;
   submit: string;
@@ -127,24 +126,13 @@ function PaymentFormInner({
 
   return (
     <form onSubmit={handleSubmit} className="flex flex-col gap-10">
-      <section className="border border-text-primary/10 rounded-2xl p-6 bg-white/40">
-        <h2 className="text-lg font-black text-text-primary mb-4">
-          {translations.summaryHeading}
-        </h2>
-        <p className="text-text-primary font-bold mb-4">{productTitle}</p>
-        <div className="flex justify-between text-sm text-text-primary/70 mb-1">
-          <span>{translations.subtotal}</span>
-          <span>{formatJpy(subtotalJpy)}</span>
-        </div>
-        <div className="flex justify-between text-sm text-text-primary/70 mb-3">
-          <span>{translations.shippingFee}</span>
-          <span>{formatJpy(shippingFeeJpy)}</span>
-        </div>
-        <div className="flex justify-between text-lg font-black text-accent border-t border-text-primary/10 pt-3">
-          <span>{translations.total}</span>
-          <span>{formatJpy(totalJpy)}</span>
-        </div>
-      </section>
+      <PaymentSummary
+        productTitle={productTitle}
+        subtotalJpy={subtotalJpy}
+        shippingFeeJpy={shippingFeeJpy}
+        totalJpy={totalJpy}
+        translations={translations}
+      />
 
       <section className="flex flex-col gap-4">
         <h2 className="text-lg font-black text-text-primary">

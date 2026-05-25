@@ -1,36 +1,89 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Artist Portfolio (yasu224)
 
-## Getting Started
+イラストレータのポートフォリオ + EC サイト。Next.js 16 (App Router) / TypeScript / Tailwind CSS v4 / Prisma + Supabase / Stripe 決済。
 
-First, run the development server:
+## セットアップ
 
 ```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+npm install
+cp .env.example .env.local
+# .env.local の各キーを埋める（取得手順は下記「環境変数」セクション参照）
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+## 開発コマンド
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+```bash
+npm run dev            # 開発サーバー（Turbopack）
+npm run build          # ビルド
+npm start              # 本番サーバー
+npm run lint           # OxLint チェック
+npm run lint:fix       # OxLint 自動修正
+npm run format         # Oxfmt チェック
+npm run format:fix     # Oxfmt 自動修正
+npm run tsc            # 型チェック
+npm run storybook      # Storybook 起動
+```
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+## 環境変数
 
-## Learn More
+`.env.example` を参照。主なキー:
 
-To learn more about Next.js, take a look at the following resources:
+| キー                                                       | 用途                                        | 取得先                                                                                        |
+| ---------------------------------------------------------- | ------------------------------------------- | --------------------------------------------------------------------------------------------- |
+| `DATABASE_URL`                                             | Prisma 接続文字列                           | Supabase Dashboard → Project Settings → Database                                              |
+| `NEXT_PUBLIC_SUPABASE_URL` / `_ANON_KEY`                   | Supabase Storage（画像）参照                | Supabase Dashboard → API                                                                      |
+| `NEXT_PUBLIC_SITE_URL`                                     | OG / JSON-LD / Stripe return_url の絶対 URL | ローカルは `http://localhost:3000`、本番は Vercel の URL                                      |
+| `STRIPE_SECRET_KEY` / `NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY` | Stripe API                                  | Stripe Dashboard → Developers → API keys（ローカルは test mode の `sk_test_*` / `pk_test_*`） |
+| `STRIPE_WEBHOOK_SECRET`                                    | Webhook 署名検証                            | 下記「Stripe Webhook をローカルで受信する」参照                                               |
+| `CRON_SECRET`                                              | TTL クリーンアップ cron の Bearer トークン  | 任意の長いランダム文字列（`openssl rand -hex 32` など）                                       |
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+## Stripe Webhook をローカルで受信する
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+`/api/stripe-webhook` を実装しているため、ローカル開発で webhook を受け取るには Stripe CLI を使う。
 
-## Deploy on Vercel
+```bash
+# 1. Stripe CLI のインストール（初回のみ）
+brew install stripe/stripe-cli/stripe
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+# 2. Stripe アカウントにログイン（初回のみ）
+stripe login
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+# 3. 別ターミナルで dev server を起動
+npm run dev
+
+# 4. さらに別ターミナルで webhook を forward
+stripe listen --forward-to localhost:3000/api/stripe-webhook
+# → 表示される whsec_xxx を .env.local の STRIPE_WEBHOOK_SECRET に貼る
+
+# 5. 動作確認: 別ターミナルでテストイベントを発火
+stripe trigger payment_intent.succeeded
+```
+
+`stripe listen` を起動している間だけ Stripe Dashboard 上のイベントがローカルに転送される。本番環境（Vercel）では Stripe Dashboard → Developers → Webhooks にエンドポイントを登録し、その signing secret を Vercel の環境変数 `STRIPE_WEBHOOK_SECRET` に設定する。
+
+## PENDING Order の TTL クリーンアップ (cron)
+
+`/api/cron/cleanup-pending-orders` は 30 分以上 PENDING のままの Order を CANCELED にし、Stripe PaymentIntent を cancel して在庫を復元する。
+
+- スケジュール: `.github/workflows/cleanup-pending-orders.yml`（GitHub Actions schedule, 30 分間隔）
+- 認証: `Authorization: Bearer ${CRON_SECRET}`
+- 必要な GitHub Repo Secrets: `CRON_SECRET`, `SITE_URL`
+
+ローカルから手動で叩く場合:
+
+```bash
+curl -H "Authorization: Bearer ${CRON_SECRET}" \
+  http://localhost:3000/api/cron/cleanup-pending-orders
+```
+
+## Prisma
+
+```bash
+npx prisma generate    # クライアント生成
+npx prisma db push     # スキーマを Supabase に反映
+npx prisma studio      # DB GUI
+```
+
+## デプロイ
+
+Vercel に main ブランチを連携。`.env.example` に記載した環境変数を Vercel Dashboard に登録すること。

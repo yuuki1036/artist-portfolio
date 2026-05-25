@@ -90,6 +90,7 @@ export async function POST(request: Request) {
       data: {
         id: orderId,
         stripePaymentIntentId: paymentIntent.id,
+        stripeClientSecret: paymentIntent.client_secret,
         customerEmail: "",
         shippingCountry: "JP",
         subtotalJpy,
