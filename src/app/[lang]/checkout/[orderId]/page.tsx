@@ -2,7 +2,6 @@ import { notFound, redirect } from "next/navigation";
 import { i18n, isValidLocale } from "@/i18n/settings";
 import { getTranslations } from "@/i18n/utils";
 import { prisma } from "@/lib/prisma";
-import { getStripe } from "@/lib/stripe";
 import { PaymentForm } from "./components/payment-form";
 
 export const dynamic = "force-dynamic";
@@ -24,15 +23,14 @@ export default async function CheckoutPage({ params }: Props) {
   if (!order) {
     notFound();
   }
+  if (order.status === "CANCELED") {
+    // TTL クリーンアップや Webhook で CANCELED になった Order は success へ流さず shop へ戻す
+    redirect(`/${lang}/shop`);
+  }
   if (order.status !== "PENDING") {
     redirect(`/${lang}/checkout/success/${orderId}`);
   }
-
-  const stripe = getStripe();
-  const paymentIntent = await stripe.paymentIntents.retrieve(
-    order.stripePaymentIntentId,
-  );
-  if (!paymentIntent.client_secret) {
+  if (!order.stripeClientSecret) {
     notFound();
   }
 
@@ -47,7 +45,7 @@ export default async function CheckoutPage({ params }: Props) {
         </h1>
         <PaymentForm
           orderId={order.id}
-          clientSecret={paymentIntent.client_secret}
+          clientSecret={order.stripeClientSecret}
           locale={lang}
           productTitle={productTitle}
           subtotalJpy={order.subtotalJpy}
