@@ -23,7 +23,7 @@
     "@prisma/client": "^7.8.0",
     "@stripe/react-stripe-js": "^6.6.0",
     "@stripe/stripe-js": "^9.8.0",
-    "@supabase/supabase-js": "^2.107.0",
+    "@supabase/supabase-js": "^2.108.1",
     "next": "16.2.1",
     "prisma": "^7.8.0",
     "react": "^19.0.0",
