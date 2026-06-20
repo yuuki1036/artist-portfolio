@@ -46,7 +46,7 @@
     "dotenv": "^17.4.0",
     "http-server": "^14.1.1",
     "oxfmt": "^0.54.0",
-    "oxlint": "^1.69.0",
+    "oxlint": "^1.70.0",
     "postcss": "^8",
     "storybook": "^10.4.0",
     "tailwindcss": "^4.2.2",
