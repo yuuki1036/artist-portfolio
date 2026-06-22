@@ -1,10 +1,13 @@
 name: Cleanup Pending Orders
 
 on:
-  schedule:
-    # 30 分ごとに /api/cron/cleanup-pending-orders を叩く
-    # Vercel Hobby プランの Cron は 1 日 1 回上限のため、外部 cron として GitHub Actions schedule を採用
-    - cron: "*/30 * * * *"
+  # NOTE: 本番ローンチまで schedule を停止中。
+  # CRON_SECRET / SITE_URL の repository secrets が未設定のため、schedule 実行が
+  # 毎回ガードで exit 1 し続けていた。本番デプロイ + secrets 登録後に再有効化する。
+  #   30 分ごとに /api/cron/cleanup-pending-orders を叩く想定
+  #   Vercel Hobby プランの Cron は 1 日 1 回上限のため、外部 cron として GitHub Actions schedule を採用
+  # schedule:
+  #   - cron: "*/30 * * * *"
   workflow_dispatch:
 
 permissions:
