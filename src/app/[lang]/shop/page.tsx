@@ -3,7 +3,7 @@ import { redirect } from "next/navigation";
 import { prisma } from "@/lib/prisma";
 import { isValidLocale, i18n } from "@/i18n/settings";
 import { getTranslations } from "@/i18n/utils";
-import { ProductCard } from "./components/product-card";
+import { ProductCard } from "./_components/product-card";
 import { resolveStockLabel } from "./_lib/stock-label";
 
 // 商品在庫・公開状態がランタイムで変わるため、静的生成せず
