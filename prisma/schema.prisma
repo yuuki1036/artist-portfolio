@@ -169,12 +169,14 @@ model Order {
 
 // EC: 注文明細（スナップショット保持）
 model OrderItem {
-  id            String @id @default(uuid())
+  id            String   @id @default(uuid())
   orderId       String
   productId     String
   titleSnapshot String
   priceSnapshot Int
-  quantity      Int    @default(1)
+  quantity      Int      @default(1)
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @updatedAt
 
   order   Order   @relation(fields: [orderId], references: [id])
   product Product @relation(fields: [productId], references: [id])
