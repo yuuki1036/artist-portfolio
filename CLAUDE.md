@@ -117,7 +117,7 @@ font-family: "Zen Kaku Gothic New", system-ui, sans-serif;
 ### ファイル配置
 
 - **共通コンポーネント**: `src/components/`
-- **機能固有コンポーネント**: `src/app/[feature]/components/`
+- **機能固有コンポーネント**: `src/app/[feature]/_components/`（App Router の private folder convention に従い `_` prefix で統一し、route segment 化を防ぐ）
 - **Package by Feature** パターンを採用
 - **Storybook**: コンポーネントと同じディレクトリに `*.stories.tsx` を配置（コロケーション）
 

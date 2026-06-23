@@ -6,9 +6,9 @@ import { prisma } from "@/lib/prisma";
 import { i18n, isValidLocale } from "@/i18n/settings";
 import { getTranslations } from "@/i18n/utils";
 import { resolveStockLabel } from "../_lib/stock-label";
-import { BuyButton } from "./components/buy-button";
-import { ProductGallery } from "./components/product-gallery";
-import { ProductInfo } from "./components/product-info";
+import { BuyButton } from "./_components/buy-button";
+import { ProductGallery } from "./_components/product-gallery";
+import { ProductInfo } from "./_components/product-info";
 
 export const dynamic = "force-dynamic";
 

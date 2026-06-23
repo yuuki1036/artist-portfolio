@@ -37,7 +37,16 @@ export async function GET(request: Request) {
     let shouldRelease = true;
     try {
       await stripe.paymentIntents.cancel(order.stripePaymentIntentId);
-    } catch {
+    } catch (err) {
+      // payment_intent_unexpected_state は想定内（既に canceled/succeeded で
+      // cancel 不可なケース）。それ以外は障害の可能性があるのでログに残す
+      const code = (err as { code?: string }).code;
+      if (code !== "payment_intent_unexpected_state") {
+        console.error(
+          `[cron] stripe.cancel failed for PI ${order.stripePaymentIntentId}:`,
+          err,
+        );
+      }
       const pi = await stripe.paymentIntents
         .retrieve(order.stripePaymentIntentId)
         .catch(() => null);
