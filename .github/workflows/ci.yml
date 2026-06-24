@@ -71,9 +71,27 @@ jobs:
       # ブラウザバイナリ DL（キャッシュミス時のみ）と system deps（毎回 apt）を分離する。
       # --with-deps で両者を束ねると DL/apt のどちらが詰まっても切り分け不能になり、
       # かつ DL 経路がハングするとキャッシュ保存まで到達せず cold miss が永続化するため。
+      #
+      # `playwright install chromium` は chromium 本体 DL 完了後、二次アーティファクト
+      # （headless shell / ffmpeg）の取得が接続段階でサイレント stall する事象が観測された
+      # （本体 DL は数秒で完走するのに以降 15 分無出力 → timeout で cancel）。
+      # 1 回あたり timeout を付けてリトライし、1 回でも成功すればキャッシュが seed され
+      # 以降の run は cache hit で DL 経路自体をスキップできる。
       - name: Install Playwright browsers
         if: steps.cache-playwright.outputs.cache-hit != 'true'
-        run: npx playwright install chromium
+        run: |
+          for attempt in 1 2 3; do
+            echo "::group::playwright install chromium (attempt ${attempt}/3)"
+            if timeout 240 npx playwright install chromium; then
+              echo "::endgroup::"
+              exit 0
+            fi
+            echo "::endgroup::"
+            echo "attempt ${attempt} がタイムアウト/失敗。リトライします。"
+            sleep 5
+          done
+          echo "playwright install が 3 回とも失敗しました。" >&2
+          exit 1
 
       - name: Install Playwright system deps
         run: npx playwright install-deps chromium
