@@ -2,7 +2,7 @@ import { notFound, redirect } from "next/navigation";
 import { i18n, isValidLocale } from "@/i18n/settings";
 import { getTranslations } from "@/i18n/utils";
 import { prisma } from "@/lib/prisma";
-import { PaymentForm } from "./components/payment-form";
+import { PaymentForm } from "./_components/payment-form";
 
 export const dynamic = "force-dynamic";
 

@@ -5,7 +5,7 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import type { Locale } from "@/i18n/settings";
 import type { Translations } from "@/i18n/types";
-import { LanguageSwitcher } from "@/app/[lang]/layout/components/language-switcher";
+import { LanguageSwitcher } from "@/app/[lang]/layout/_components/language-switcher";
 import {
   InstagramIcon,
   TikTokIcon,
