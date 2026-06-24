@@ -46,7 +46,7 @@ jobs:
 
   storybook:
     runs-on: ubuntu-latest
-    timeout-minutes: 15
+    timeout-minutes: 18
     steps:
       - name: Checkout
         uses: actions/checkout@v6
@@ -72,17 +72,24 @@ jobs:
       # --with-deps で両者を束ねると DL/apt のどちらが詰まっても切り分け不能になり、
       # かつ DL 経路がハングするとキャッシュ保存まで到達せず cold miss が永続化するため。
       #
-      # `playwright install chromium` は chromium 本体 DL 完了後、二次アーティファクト
-      # （headless shell / ffmpeg）の取得が接続段階でサイレント stall する事象が観測された
-      # （本体 DL は数秒で完走するのに以降 15 分無出力 → timeout で cancel）。
-      # 1 回あたり timeout を付けてリトライし、1 回でも成功すればキャッシュが seed され
-      # 以降の run は cache hit で DL 経路自体をスキップできる。
+      # 当初 `playwright install chromium` を使っていたが、chromium 本体（フル, 170MB）の
+      # DL 完了後に二次アーティファクト（headless shell）の取得が接続段階でサイレント stall
+      # する事象が観測された（本体 DL は数秒で完走するのに以降 4 分無出力 → timeout で cancel）。
+      #
+      # storybook test-runner は CI で headless 実行（channel 指定なし）のためフル chromium 本体は
+      # 不要で headless shell だけで動く。`--only-shell` でフル本体 DL を丸ごと省き、必要な shell のみ
+      # 取得することで DL 量と stall ポイントの双方を削減する。
+      # 加えて PLAYWRIGHT_DOWNLOAD_CONNECTION_TIMEOUT で接続確立待ちを短縮し、stall 時は早めに
+      # 失敗させてリトライ（毎回 fresh TCP 接続 = 別 CDN エッジに当たり得る）に回す。
+      # 1 回でも成功すればキャッシュが seed され、以降の run は cache hit で DL 経路自体をスキップできる。
       - name: Install Playwright browsers
         if: steps.cache-playwright.outputs.cache-hit != 'true'
+        env:
+          PLAYWRIGHT_DOWNLOAD_CONNECTION_TIMEOUT: "120000"
         run: |
-          for attempt in 1 2 3; do
-            echo "::group::playwright install chromium (attempt ${attempt}/3)"
-            if timeout 240 npx playwright install chromium; then
+          for attempt in 1 2 3 4; do
+            echo "::group::playwright install --only-shell (attempt ${attempt}/4)"
+            if timeout 150 npx playwright install --only-shell chromium; then
               echo "::endgroup::"
               exit 0
             fi
@@ -90,7 +97,7 @@ jobs:
             echo "attempt ${attempt} がタイムアウト/失敗。リトライします。"
             sleep 5
           done
-          echo "playwright install が 3 回とも失敗しました。" >&2
+          echo "playwright install が 4 回とも失敗しました。" >&2
           exit 1
 
       - name: Install Playwright system deps
