@@ -1,6 +1,6 @@
 import { NextResponse } from "next/server";
 import type { NextRequest } from "next/server";
-import { i18n } from "@/i18n/settings";
+import { i18n, isValidLocale } from "@/i18n/settings";
 
 export function proxy(request: NextRequest) {
   const pathname = request.nextUrl.pathname;
@@ -24,7 +24,13 @@ export function proxy(request: NextRequest) {
     );
   }
 
-  return NextResponse.next();
+  // 現在のロケールをリクエストヘッダに載せ、root layout の <html lang> 設定に使う。
+  const maybeLocale = pathname.split("/")[1] ?? "";
+  const locale = isValidLocale(maybeLocale) ? maybeLocale : i18n.defaultLocale;
+  const requestHeaders = new Headers(request.headers);
+  requestHeaders.set("x-locale", locale);
+
+  return NextResponse.next({ request: { headers: requestHeaders } });
 }
 
 // 静的ファイルやAPI以外のすべてのリクエストに対してproxyを実行

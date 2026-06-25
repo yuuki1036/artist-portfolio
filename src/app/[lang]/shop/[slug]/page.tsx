@@ -5,6 +5,7 @@ import { cache } from "react";
 import { prisma } from "@/lib/prisma";
 import { getProductImageUrl } from "@/lib/supabase-storage";
 import { i18n, isValidLocale } from "@/i18n/settings";
+import { buildLanguageAlternates } from "@/i18n/seo";
 import { getTranslations } from "@/i18n/utils";
 import { resolveStockLabel } from "../_lib/stock-label";
 import { BuyButton } from "./_components/buy-button";
@@ -45,6 +46,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   return {
     title,
     description,
+    alternates: buildLanguageAlternates(lang, `/shop/${slug}`),
     openGraph: {
       title,
       description,

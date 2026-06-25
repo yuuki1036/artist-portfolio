@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { getTranslations } from "@/i18n/utils";
 import { isValidLocale, i18n } from "@/i18n/settings";
+import { buildLanguageAlternates } from "@/i18n/seo";
 import { redirect } from "next/navigation";
 import { HeroSection } from "./_components/hero-section";
 import { WaveDivider } from "@/components/wave-divider";
@@ -38,6 +39,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const t = await getTranslations(lang);
   return {
     title: t.common.title,
+    alternates: buildLanguageAlternates(lang, ""),
   };
 }
 

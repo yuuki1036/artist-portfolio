@@ -3,6 +3,7 @@ import { redirect } from "next/navigation";
 import { prisma } from "@/lib/prisma";
 import { getProductImageUrl } from "@/lib/supabase-storage";
 import { isValidLocale, i18n } from "@/i18n/settings";
+import { buildLanguageAlternates } from "@/i18n/seo";
 import { getTranslations } from "@/i18n/utils";
 import { ProductCard } from "./_components/product-card";
 import { resolveStockLabel } from "./_lib/stock-label";
@@ -26,6 +27,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const t = await getTranslations(lang);
   return {
     title: t.shop.title,
+    alternates: buildLanguageAlternates(lang, "/shop"),
   };
 }
 
