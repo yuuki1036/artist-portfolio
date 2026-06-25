@@ -11,12 +11,13 @@
 
 const PRODUCT_BUCKET = "products";
 
-function getStoragePublicBaseUrl(): string {
+function getStoragePublicBaseUrl(): string | null {
   const base = process.env.NEXT_PUBLIC_SUPABASE_URL;
   if (!base) {
-    throw new Error("NEXT_PUBLIC_SUPABASE_URL is not set");
+    return null;
   }
-  return `${base.replace(/\/+$/, "")}/storage/v1/object/public`;
+  // 末尾の空白・スラッシュを除去してから組み立てる（env 値の混入対策）。
+  return `${base.trim().replace(/\/+$/, "")}/storage/v1/object/public`;
 }
 
 /**
@@ -40,14 +41,23 @@ export function buildProductImagePath(
  * - それ以外は products バケット内パスとみなし public URL を構築する。
  *
  * 空文字は呼び出し側でフォールバック表示するため、そのまま空文字を返す。
+ * env 未設定でパス解決できない場合も、ページ全体をクラッシュさせず空文字を返す
+ * （呼び出し側のフォールバック表示に委ねる）。
  */
 export function getProductImageUrl(pathOrUrl: string): string {
   if (pathOrUrl === "") {
     return "";
   }
-  if (/^https?:\/\//.test(pathOrUrl)) {
+  if (/^https?:\/\//i.test(pathOrUrl)) {
     return pathOrUrl;
   }
+  const baseUrl = getStoragePublicBaseUrl();
+  if (!baseUrl) {
+    console.warn(
+      `NEXT_PUBLIC_SUPABASE_URL is not set; cannot resolve product image path: ${pathOrUrl}`,
+    );
+    return "";
+  }
   const path = pathOrUrl.replace(/^\/+/, "");
-  return `${getStoragePublicBaseUrl()}/${PRODUCT_BUCKET}/${path}`;
+  return `${baseUrl}/${PRODUCT_BUCKET}/${path}`;
 }

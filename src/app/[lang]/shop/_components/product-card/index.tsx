@@ -29,16 +29,18 @@ export function ProductCard({
       aria-disabled={isSoldOut}
     >
       <div className="relative overflow-hidden rounded-xl bg-bg-warm shadow-md transition-all duration-300 group-hover:shadow-xl group-hover:-translate-y-1">
-        <div className="relative aspect-square overflow-hidden">
-          <Image
-            src={imageUrl}
-            alt={title}
-            fill
-            sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
-            className={`object-cover transition-transform duration-500 group-hover:scale-105 ${
-              isSoldOut ? "opacity-60" : ""
-            }`}
-          />
+        <div className="relative aspect-square overflow-hidden bg-bg-warm">
+          {imageUrl ? (
+            <Image
+              src={imageUrl}
+              alt={title}
+              fill
+              sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
+              className={`object-cover transition-transform duration-500 group-hover:scale-105 ${
+                isSoldOut ? "opacity-60" : ""
+              }`}
+            />
+          ) : null}
           {stockLabel ? (
             <div className="absolute top-3 right-3">
               <StockBadge

@@ -58,6 +58,16 @@ async function handlePaymentSucceeded(pi: Stripe.PaymentIntent) {
       ? ((pi.customer as Stripe.Customer).email ?? "")
       : "");
 
+  // 実際に課金された金額（zero-decimal JPY なのでそのまま円）を信頼ソースとして
+  // Order に再同期する。update-shipping の DB↔Stripe 更新が非トランザクションで
+  // ずれた場合でも、ここで実課金額に整合させ会計記録の乖離を防ぐ。
+  // subtotalJpy は注文時スナップショットで不変のため、送料は差分で復元する。
+  const chargedTotalJpy = pi.amount_received || pi.amount;
+  const reconciledShippingFeeJpy = Math.max(
+    0,
+    chargedTotalJpy - order.subtotalJpy,
+  );
+
   // 在庫は /api/checkout で reserve 済みなのでここでは触らない。
   // PENDING 限定の updateMany により冪等性を担保（重複配信時は count=0）。
   await prisma.order.updateMany({
@@ -65,6 +75,8 @@ async function handlePaymentSucceeded(pi: Stripe.PaymentIntent) {
     data: {
       status: "PAID",
       paidAt: new Date(),
+      totalJpy: chargedTotalJpy,
+      shippingFeeJpy: reconciledShippingFeeJpy,
       customerEmail: customerEmail || order.customerEmail,
       customerName: shipping?.name ?? order.customerName,
       shippingCountry: shipping?.address?.country ?? order.shippingCountry,
