@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { redirect } from "next/navigation";
 import { prisma } from "@/lib/prisma";
+import { getProductImageUrl } from "@/lib/supabase-storage";
 import { isValidLocale, i18n } from "@/i18n/settings";
 import { getTranslations } from "@/i18n/utils";
 import { ProductCard } from "./_components/product-card";
@@ -61,7 +62,7 @@ export default async function ShopPage({ params }: Props) {
           <ul className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8">
             {products.map((product) => {
               const title = lang === "ja" ? product.titleJa : product.titleEn;
-              const imageUrl = product.imageUrls[0] ?? "";
+              const imageUrl = getProductImageUrl(product.imageUrls[0] ?? "");
               const isSoldOut = product.stockRemaining <= 0;
               return (
                 <li key={product.id}>

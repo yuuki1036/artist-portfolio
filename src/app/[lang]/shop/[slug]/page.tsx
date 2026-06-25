@@ -3,6 +3,7 @@ import Link from "next/link";
 import { notFound, redirect } from "next/navigation";
 import { cache } from "react";
 import { prisma } from "@/lib/prisma";
+import { getProductImageUrl } from "@/lib/supabase-storage";
 import { i18n, isValidLocale } from "@/i18n/settings";
 import { getTranslations } from "@/i18n/utils";
 import { resolveStockLabel } from "../_lib/stock-label";
@@ -39,7 +40,8 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const title = lang === "ja" ? product.titleJa : product.titleEn;
   const description =
     lang === "ja" ? product.descriptionJa : product.descriptionEn;
-  const ogImage = product.imageUrls[0];
+  const firstImage = product.imageUrls[0];
+  const ogImage = firstImage ? getProductImageUrl(firstImage) : undefined;
 
   return {
     title,
@@ -69,6 +71,7 @@ export default async function ProductDetailPage({ params }: Props) {
   const title = lang === "ja" ? product.titleJa : product.titleEn;
   const description =
     lang === "ja" ? product.descriptionJa : product.descriptionEn;
+  const imageUrls = product.imageUrls.map(getProductImageUrl);
   const isSoldOut = product.stockRemaining <= 0;
   const stockLabel = resolveStockLabel(product.stockRemaining, {
     soldOut: t.shop.soldOut,
@@ -81,7 +84,7 @@ export default async function ProductDetailPage({ params }: Props) {
     "@type": "Product",
     name: title,
     description,
-    image: product.imageUrls,
+    image: imageUrls,
     offers: {
       "@type": "Offer",
       priceCurrency: "JPY",
@@ -106,7 +109,7 @@ export default async function ProductDetailPage({ params }: Props) {
         </Link>
 
         <div className="grid grid-cols-1 md:grid-cols-2 gap-8 md:gap-12">
-          <ProductGallery imageUrls={product.imageUrls} alt={title} />
+          <ProductGallery imageUrls={imageUrls} alt={title} />
           <div className="flex flex-col gap-8">
             <ProductInfo
               title={title}
