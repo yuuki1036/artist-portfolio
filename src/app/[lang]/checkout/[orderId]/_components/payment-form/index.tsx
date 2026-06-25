@@ -94,7 +94,7 @@ function PaymentFormInner({
       const res = await fetch(`/api/checkout/${orderId}/update-shipping`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ country: next }),
+        body: JSON.stringify({ country: next, clientSecret }),
       });
       if (!res.ok) return;
       const parsed = ShippingResponse.safeParse(

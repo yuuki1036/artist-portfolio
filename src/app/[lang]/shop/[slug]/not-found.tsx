@@ -1,23 +1,16 @@
-"use client";
-
 import Link from "next/link";
-import { usePathname } from "next/navigation";
+import { headers } from "next/headers";
 import { i18n, isValidLocale, type Locale } from "@/i18n/settings";
-import type { Translations } from "@/i18n/types";
-import { getLocaleFromPathname } from "@/i18n/utils";
-import enTranslations from "../../../../../public/locales/en.json";
-import jaTranslations from "../../../../../public/locales/ja.json";
+import { getTranslations } from "@/i18n/utils";
 
-const translations: Record<Locale, Translations> = {
-  ja: jaTranslations as Translations,
-  en: enTranslations as Translations,
-};
-
-export default function ProductNotFound() {
-  const pathname = usePathname();
-  const rawLang = getLocaleFromPathname(pathname);
-  const lang: Locale = isValidLocale(rawLang) ? rawLang : i18n.defaultLocale;
-  const t = translations[lang];
+export default async function ProductNotFound() {
+  // proxy が付与する x-locale から現在ロケールを取得（server component なので
+  // 全 locale JSON を import せず getTranslations で単一ロケールだけ読み込む）。
+  const headerLocale = (await headers()).get("x-locale") ?? "";
+  const lang: Locale = isValidLocale(headerLocale)
+    ? headerLocale
+    : i18n.defaultLocale;
+  const t = await getTranslations(lang);
 
   return (
     <section className="bg-bg-primary px-6 py-24 min-h-screen flex items-center justify-center">
