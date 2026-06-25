@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import type { Locale } from "@/i18n/settings";
@@ -23,6 +23,11 @@ export function Navigation({ currentLang, translations }: NavigationProps) {
   const pathname = usePathname();
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const menu = translations.common.menu;
+  const a11y = translations.common.a11y;
+
+  const hamburgerRef = useRef<HTMLButtonElement>(null);
+  const dialogRef = useRef<HTMLDivElement>(null);
+  const closeButtonRef = useRef<HTMLButtonElement>(null);
 
   const toggleMobileMenu = () => {
     setIsMobileMenuOpen(!isMobileMenuOpen);
@@ -31,6 +36,55 @@ export function Navigation({ currentLang, translations }: NavigationProps) {
   const closeMobileMenu = () => {
     setIsMobileMenuOpen(false);
   };
+
+  // モバイルメニュー展開中の a11y: スクロールロック・フォーカス移動/復帰・
+  // Esc クローズ・Tab フォーカストラップを担う。
+  useEffect(() => {
+    if (!isMobileMenuOpen) {
+      return;
+    }
+    const dialog = dialogRef.current;
+    if (!dialog) {
+      return;
+    }
+
+    const previouslyFocused = document.activeElement as HTMLElement | null;
+    const originalOverflow = document.body.style.overflow;
+    document.body.style.overflow = "hidden";
+    closeButtonRef.current?.focus();
+
+    const handleKeyDown = (event: KeyboardEvent) => {
+      if (event.key === "Escape") {
+        setIsMobileMenuOpen(false);
+        return;
+      }
+      if (event.key !== "Tab") {
+        return;
+      }
+      const focusable = dialog.querySelectorAll<HTMLElement>(
+        'a[href], button:not([disabled]), [tabindex]:not([tabindex="-1"])',
+      );
+      if (focusable.length === 0) {
+        return;
+      }
+      const first = focusable[0];
+      const last = focusable[focusable.length - 1];
+      if (event.shiftKey && document.activeElement === first) {
+        event.preventDefault();
+        last.focus();
+      } else if (!event.shiftKey && document.activeElement === last) {
+        event.preventDefault();
+        first.focus();
+      }
+    };
+
+    document.addEventListener("keydown", handleKeyDown);
+    return () => {
+      document.removeEventListener("keydown", handleKeyDown);
+      document.body.style.overflow = originalOverflow;
+      previouslyFocused?.focus();
+    };
+  }, [isMobileMenuOpen]);
 
   const navigationItems = [
     {
@@ -76,10 +130,13 @@ export function Navigation({ currentLang, translations }: NavigationProps) {
             {/* Mobile Menu Button */}
             <div className="md:hidden">
               <button
+                ref={hamburgerRef}
                 type="button"
                 onClick={toggleMobileMenu}
                 className="text-text-primary hover:text-text-primary/70 transition-colors"
-                aria-label="Toggle mobile menu"
+                aria-label={a11y.openMenu}
+                aria-expanded={isMobileMenuOpen}
+                aria-controls="mobile-menu"
               >
                 <HamburgerMenuIcon />
               </button>
@@ -133,7 +190,10 @@ export function Navigation({ currentLang, translations }: NavigationProps) {
 
               {/* Language Switcher */}
               <div className="flex items-center space-x-2">
-                <span className="text-sm text-text-primary/70">
+                <span
+                  className="text-sm text-text-primary/70"
+                  aria-hidden="true"
+                >
                   {currentLang === "ja" ? "🇯🇵" : "🇺🇸"}
                 </span>
                 <LanguageSwitcher currentLang={currentLang} />
@@ -144,7 +204,7 @@ export function Navigation({ currentLang, translations }: NavigationProps) {
                 <button
                   type="button"
                   className="text-text-primary hover:text-text-primary/70 transition-colors flex items-center space-x-1"
-                  aria-label="Shopping cart"
+                  aria-label={a11y.cart}
                 >
                   <ShoppingCartIcon />
                   <span className="text-sm font-medium">0</span>
@@ -157,7 +217,7 @@ export function Navigation({ currentLang, translations }: NavigationProps) {
               <button
                 type="button"
                 className="text-text-primary hover:text-text-primary/70 transition-colors flex items-center space-x-1"
-                aria-label="Shopping cart"
+                aria-label={a11y.cart}
               >
                 <ShoppingCartIcon />
                 <span className="text-sm font-medium">0</span>
@@ -169,7 +229,14 @@ export function Navigation({ currentLang, translations }: NavigationProps) {
 
       {/* Mobile Menu Overlay */}
       {isMobileMenuOpen && (
-        <div className="fixed inset-0 bg-bg-primary z-50 md:hidden">
+        <div
+          ref={dialogRef}
+          id="mobile-menu"
+          role="dialog"
+          aria-modal="true"
+          aria-label={a11y.menuDialog}
+          className="fixed inset-0 bg-bg-primary z-50 md:hidden"
+        >
           <div className="flex flex-col h-full">
             {/* Header */}
             <div className="flex items-center justify-between px-4 py-4 border-b border-text-primary/10">
@@ -181,10 +248,11 @@ export function Navigation({ currentLang, translations }: NavigationProps) {
                 yasu224
               </Link>
               <button
+                ref={closeButtonRef}
                 type="button"
                 onClick={closeMobileMenu}
                 className="text-text-primary hover:text-text-primary/70 transition-colors"
-                aria-label="Close menu"
+                aria-label={a11y.closeMenu}
               >
                 <CloseIcon />
               </button>
@@ -233,7 +301,10 @@ export function Navigation({ currentLang, translations }: NavigationProps) {
 
               {/* Language Switcher */}
               <div className="flex items-center justify-center space-x-2">
-                <span className="text-sm text-text-primary/70">
+                <span
+                  className="text-sm text-text-primary/70"
+                  aria-hidden="true"
+                >
                   {currentLang === "ja" ? "🇯🇵" : "🇺🇸"}
                 </span>
                 <LanguageSwitcher currentLang={currentLang} />

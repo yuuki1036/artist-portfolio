@@ -7,6 +7,12 @@
       "about": "プロフィール",
       "contact": "お問い合わせ"
     },
+    "a11y": {
+      "openMenu": "メニューを開く",
+      "closeMenu": "メニューを閉じる",
+      "menuDialog": "メインメニュー",
+      "cart": "カート"
+    },
     "footer": {
       "copyright": "© 2026 yasu224. All rights reserved.",
       "social": {
