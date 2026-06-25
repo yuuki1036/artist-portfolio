@@ -7,6 +7,12 @@
       "about": "About",
       "contact": "Contact"
     },
+    "a11y": {
+      "openMenu": "Open menu",
+      "closeMenu": "Close menu",
+      "menuDialog": "Main menu",
+      "cart": "Shopping cart"
+    },
     "footer": {
       "copyright": "© 2026 yasu224. All rights reserved.",
       "social": {
