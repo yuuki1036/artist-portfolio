@@ -3,6 +3,8 @@ name: CI
 on:
   pull_request:
     branches: [main]
+  push:
+    branches: [main]
 
 permissions:
   contents: read
@@ -44,6 +46,7 @@ jobs:
 
   storybook:
     runs-on: ubuntu-latest
+    timeout-minutes: 15
     steps:
       - name: Checkout
         uses: actions/checkout@v6
@@ -65,12 +68,37 @@ jobs:
           path: ~/.cache/ms-playwright
           key: playwright-${{ runner.os }}-${{ steps.playwright-version.outputs.version }}
 
+      # ブラウザバイナリ DL（キャッシュミス時のみ）と system deps（毎回 apt）を分離する。
+      # --with-deps で両者を束ねると DL/apt のどちらが詰まっても切り分け不能になり、
+      # かつ DL 経路がハングするとキャッシュ保存まで到達せず cold miss が永続化するため。
+      #
+      # storybook test-runner は CI で headless 実行（channel 指定なし）のためフル chromium 本体は
+      # 不要で headless shell だけで動く。`--only-shell` でフル本体 DL を省き shell のみ取得する。
+      #
+      # 注: install が「DL 100% 完走後に extracting archive で無音ハング」する場合、これは
+      # Playwright < 1.60.0 が Node 24.16+ / 26.x で zip 展開（yauzl）ワーカーをサイレントに
+      # 落とす既知バグ（microsoft/playwright#41000）。本リポジトリは Node 24 系のため該当する。
+      # 根本対策は package.json の overrides で playwright/playwright-core を ^1.60.0 に固定する
+      # こと（このワークフロー単体では直せない）。
+      # 以下のリトライは genuine な DL 失敗への備えと cache seed が目的。
+      # 1 回でも成功すればキャッシュが seed され、以降の run は cache hit で DL 経路自体をスキップできる。
       - name: Install Playwright browsers
         if: steps.cache-playwright.outputs.cache-hit != 'true'
-        run: npx playwright install --with-deps chromium
+        run: |
+          for attempt in 1 2 3; do
+            echo "::group::playwright install --only-shell (attempt ${attempt}/3)"
+            if timeout 180 npx playwright install --only-shell chromium; then
+              echo "::endgroup::"
+              exit 0
+            fi
+            echo "::endgroup::"
+            echo "attempt ${attempt} がタイムアウト/失敗。リトライします。"
+            sleep 5
+          done
+          echo "playwright install が 3 回とも失敗しました。" >&2
+          exit 1
 
-      - name: Install Playwright system deps (cached browsers)
-        if: steps.cache-playwright.outputs.cache-hit == 'true'
+      - name: Install Playwright system deps
         run: npx playwright install-deps chromium
 
       - name: Run Storybook tests
