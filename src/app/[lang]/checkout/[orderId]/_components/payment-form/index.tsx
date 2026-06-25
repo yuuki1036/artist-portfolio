@@ -13,6 +13,7 @@ import {
   type StripeAddressElementChangeEvent,
 } from "@stripe/stripe-js";
 import { useState } from "react";
+import { z } from "zod";
 import { ALLOWED_COUNTRIES } from "@/app/[lang]/shop/_lib/shipping-rate";
 import type { Locale } from "@/i18n/settings";
 import {
@@ -22,6 +23,11 @@ import {
 
 const publishableKey = process.env.NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY;
 const stripePromise = publishableKey ? loadStripe(publishableKey) : null;
+
+const ShippingResponse = z.object({
+  shippingFeeJpy: z.number(),
+  totalJpy: z.number(),
+});
 
 type Translations = PaymentSummaryTranslations & {
   addressHeading: string;
@@ -91,12 +97,12 @@ function PaymentFormInner({
         body: JSON.stringify({ country: next }),
       });
       if (!res.ok) return;
-      const data = (await res.json()) as {
-        shippingFeeJpy: number;
-        totalJpy: number;
-      };
-      setShippingFeeJpy(data.shippingFeeJpy);
-      setTotalJpy(data.totalJpy);
+      const parsed = ShippingResponse.safeParse(
+        await res.json().catch(() => null),
+      );
+      if (!parsed.success) return;
+      setShippingFeeJpy(parsed.data.shippingFeeJpy);
+      setTotalJpy(parsed.data.totalJpy);
       setCountry(next);
     } catch {
       // フォールバック: 確定時に送料が再計算されるので致命ではない

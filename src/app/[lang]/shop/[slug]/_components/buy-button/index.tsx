@@ -2,7 +2,10 @@
 
 import { useRouter } from "next/navigation";
 import { useState, useTransition } from "react";
+import { z } from "zod";
 import type { Locale } from "@/i18n/settings";
+
+const CheckoutResponse = z.object({ orderId: z.string().min(1) });
 
 type Props = {
   productId: string;
@@ -33,8 +36,14 @@ export function BuyButton({ productId, locale, isSoldOut, labels }: Props) {
           setError(labels.error);
           return;
         }
-        const { orderId } = (await res.json()) as { orderId: string };
-        router.push(`/${locale}/checkout/${orderId}`);
+        const parsed = CheckoutResponse.safeParse(
+          await res.json().catch(() => null),
+        );
+        if (!parsed.success) {
+          setError(labels.error);
+          return;
+        }
+        router.push(`/${locale}/checkout/${parsed.data.orderId}`);
       } catch {
         setError(labels.error);
       }

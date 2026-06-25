@@ -1,4 +1,4 @@
-import type { Locale } from "./settings";
+import { i18n, isValidLocale, type Locale } from "./settings";
 import type { Translations } from "./types";
 
 export async function getTranslations(locale: Locale): Promise<Translations> {
@@ -7,7 +7,6 @@ export async function getTranslations(locale: Locale): Promise<Translations> {
 }
 
 export function getLocaleFromPathname(pathname: string): Locale {
-  const segments = pathname.split("/");
-  const localeSegment = segments[1];
-  return localeSegment as Locale;
+  const segment = pathname.split("/")[1] ?? "";
+  return isValidLocale(segment) ? segment : i18n.defaultLocale;
 }
