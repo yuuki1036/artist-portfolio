@@ -134,9 +134,19 @@ import { prisma } from "@/lib/prisma";
 ## 環境変数
 
 ```env
-NEXT_PUBLIC_SUPABASE_URL=
-NEXT_PUBLIC_SUPABASE_ANON_KEY=
+# DB / Supabase
 DATABASE_URL=
+NEXT_PUBLIC_SUPABASE_URL=          # 商品画像の public URL 構築にも使用
+NEXT_PUBLIC_SUPABASE_ANON_KEY=
+
+# Stripe（決済）
+STRIPE_SECRET_KEY=                 # サーバー: PaymentIntent 作成等
+STRIPE_WEBHOOK_SECRET=             # /api/stripe-webhook の署名検証
+NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY= # クライアント: Payment Element
+
+# サイト / 運用
+NEXT_PUBLIC_SITE_URL=              # 絶対 URL（metadataBase / sitemap / JSON-LD）
+CRON_SECRET=                       # /api/cron/* の Bearer 認証
 ```
 
 ## ページ構成（予定）
