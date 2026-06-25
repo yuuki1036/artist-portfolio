@@ -40,8 +40,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const title = lang === "ja" ? product.titleJa : product.titleEn;
   const description =
     lang === "ja" ? product.descriptionJa : product.descriptionEn;
-  const firstImage = product.imageUrls[0];
-  const ogImage = firstImage ? getProductImageUrl(firstImage) : undefined;
+  const ogImage = product.imageUrls.map(getProductImageUrl).find(Boolean);
 
   return {
     title,
@@ -71,7 +70,7 @@ export default async function ProductDetailPage({ params }: Props) {
   const title = lang === "ja" ? product.titleJa : product.titleEn;
   const description =
     lang === "ja" ? product.descriptionJa : product.descriptionEn;
-  const imageUrls = product.imageUrls.map(getProductImageUrl);
+  const imageUrls = product.imageUrls.map(getProductImageUrl).filter(Boolean);
   const isSoldOut = product.stockRemaining <= 0;
   const stockLabel = resolveStockLabel(product.stockRemaining, {
     soldOut: t.shop.soldOut,
