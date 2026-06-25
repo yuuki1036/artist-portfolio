@@ -1,3 +1,4 @@
+import { timingSafeEqual } from "node:crypto";
 import { NextResponse } from "next/server";
 import { z } from "zod";
 import {
@@ -15,7 +16,16 @@ const BodySchema = z.object({
     .refine((c) => ALLOWED_COUNTRIES.includes(c), {
       message: "Unsupported country",
     }),
+  // 注文の所有証明。正規の購入者だけが持つ clientSecret を照合し、orderId だけ
+  // 知る第三者による配送先・金額の改ざん（IDOR）を防ぐ。
+  clientSecret: z.string().min(1),
 });
+
+function secretsMatch(a: string, b: string): boolean {
+  const ab = Buffer.from(a);
+  const bb = Buffer.from(b);
+  return ab.length === bb.length && timingSafeEqual(ab, bb);
+}
 
 type Params = { params: Promise<{ orderId: string }> };
 
@@ -25,11 +35,18 @@ export async function POST(request: Request, { params }: Params) {
   if (!parsed.success) {
     return NextResponse.json({ error: "Invalid request" }, { status: 400 });
   }
-  const { country } = parsed.data;
+  const { country, clientSecret } = parsed.data;
 
   const order = await prisma.order.findUnique({ where: { id: orderId } });
   if (!order) {
     return NextResponse.json({ error: "Order not found" }, { status: 404 });
+  }
+  // 所有証明: clientSecret が一致しない（または未保存の）注文は操作不可。
+  if (
+    !order.stripeClientSecret ||
+    !secretsMatch(order.stripeClientSecret, clientSecret)
+  ) {
+    return NextResponse.json({ error: "Forbidden" }, { status: 403 });
   }
   if (order.status !== "PENDING") {
     return NextResponse.json(
