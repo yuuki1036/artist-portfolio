@@ -46,7 +46,7 @@ jobs:
 
   storybook:
     runs-on: ubuntu-latest
-    timeout-minutes: 18
+    timeout-minutes: 15
     steps:
       - name: Checkout
         uses: actions/checkout@v6
@@ -75,24 +75,19 @@ jobs:
       # storybook test-runner は CI で headless 実行（channel 指定なし）のためフル chromium 本体は
       # 不要で headless shell だけで動く。`--only-shell` でフル本体 DL を省き shell のみ取得する。
       #
-      # ハングの実態（ログで確定）: zip は毎回 1 秒で 100% まで完走するのに、その後 ~150 秒
-      # 無出力で固まる。展開なら 112MB は数秒で終わるため展開でもなく、全バイト受信後に
-      # コネクションが閉じず（FIN が来ず）ストリーム終了待ちで stall している典型パターン。
-      # GitHub runner ↔ cdn.playwright.dev の IPv6 経路が half-working（転送は通るが teardown が
-      # 固まる）なときに出る。Node の DNS を IPv4 優先にして IPv6 teardown stall を回避する。
-      # PLAYWRIGHT_DOWNLOAD_CONNECTION_TIMEOUT はこの局面（接続確立後の終了待ち）を制御しない
-      # ことが観測で判明したため撤去。DEBUG=pw:install は万一再発時の切り分け用（DL/展開の特定）。
-      #
+      # 注: install が「DL 100% 完走後に extracting archive で無音ハング」する場合、これは
+      # Playwright < 1.60.0 が Node 24.16+ / 26.x で zip 展開（yauzl）ワーカーをサイレントに
+      # 落とす既知バグ（microsoft/playwright#41000）。本リポジトリは Node 24 系のため該当する。
+      # 根本対策は package.json の overrides で playwright/playwright-core を ^1.60.0 に固定する
+      # こと（このワークフロー単体では直せない）。
+      # 以下のリトライは genuine な DL 失敗への備えと cache seed が目的。
       # 1 回でも成功すればキャッシュが seed され、以降の run は cache hit で DL 経路自体をスキップできる。
       - name: Install Playwright browsers
         if: steps.cache-playwright.outputs.cache-hit != 'true'
-        env:
-          NODE_OPTIONS: "--dns-result-order=ipv4first"
-          DEBUG: "pw:install"
         run: |
-          for attempt in 1 2 3 4; do
-            echo "::group::playwright install --only-shell (attempt ${attempt}/4)"
-            if timeout 120 npx playwright install --only-shell chromium; then
+          for attempt in 1 2 3; do
+            echo "::group::playwright install --only-shell (attempt ${attempt}/3)"
+            if timeout 180 npx playwright install --only-shell chromium; then
               echo "::endgroup::"
               exit 0
             fi
@@ -100,7 +95,7 @@ jobs:
             echo "attempt ${attempt} がタイムアウト/失敗。リトライします。"
             sleep 5
           done
-          echo "playwright install が 4 回とも失敗しました。" >&2
+          echo "playwright install が 3 回とも失敗しました。" >&2
           exit 1
 
       - name: Install Playwright system deps
