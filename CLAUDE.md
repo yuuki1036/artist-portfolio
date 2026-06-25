@@ -65,9 +65,10 @@ src/
 │   ├── [lang]/              # i18nルーティング
 │   │   ├── layout.tsx
 │   │   ├── page.tsx         # Home
-│   │   └── layout/components/
-│   │       ├── navigation/      # ナビゲーション
-│   │       └── language-switcher/ # 言語切替
+│   │   └── layout/_components/
+│   │       ├── navigation/         # ナビゲーション
+│   │       ├── language-switcher/  # 言語切替
+│   │       └── footer/             # フッター
 │   ├── globals.css
 │   └── layout.tsx           # ルートレイアウト
 ├── components/              # 共通コンポーネント

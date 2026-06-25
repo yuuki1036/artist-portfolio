@@ -2,8 +2,8 @@ import type { ReactNode } from "react";
 import type { Metadata } from "next";
 import { isValidLocale } from "@/i18n/settings";
 import { redirect } from "next/navigation";
-import { Navigation } from "./layout/components/navigation";
-import { Footer } from "./layout/components/footer";
+import { Navigation } from "./layout/_components/navigation";
+import { Footer } from "./layout/_components/footer";
 import { getTranslations } from "@/i18n/utils";
 
 type Props = {

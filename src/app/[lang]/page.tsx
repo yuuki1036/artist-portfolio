@@ -2,9 +2,9 @@ import type { Metadata } from "next";
 import { getTranslations } from "@/i18n/utils";
 import { isValidLocale, i18n } from "@/i18n/settings";
 import { redirect } from "next/navigation";
-import { HeroSection } from "./components/hero-section";
+import { HeroSection } from "./_components/hero-section";
 import { WaveDivider } from "@/components/wave-divider";
-import { WorkCard } from "./components/work-card";
+import { WorkCard } from "./_components/work-card";
 
 const works = [
   { src: "/images/works/work-1.png", title: "RED CAR IS GOOD", rotation: -1.5 },
