@@ -38,7 +38,7 @@
     "@storybook/test-runner": "^0.24.3",
     "@tailwindcss/postcss": "^4.3.0",
     "@tailwindcss/vite": "^4.3.0",
-    "@types/node": "^25",
+    "@types/node": "^26",
     "@types/react": "^19",
     "@types/react-dom": "^19",
     "@typescript/native-preview": "^7.0.0-dev.20260320.1",
