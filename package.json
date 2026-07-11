@@ -45,7 +45,7 @@
     "concurrently": "^10.0.3",
     "dotenv": "^17.4.0",
     "http-server": "^14.1.1",
-    "oxfmt": "^0.57.0",
+    "oxfmt": "^0.58.0",
     "oxlint": "^1.72.0",
     "postcss": "^8",
     "storybook": "^10.4.0",
