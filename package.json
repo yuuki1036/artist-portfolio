@@ -51,7 +51,7 @@
     "storybook": "^10.5.0",
     "tailwindcss": "^4.2.2",
     "typescript": "^6.0.3",
-    "wait-on": "^9.0.4"
+    "wait-on": "^9.1.0"
   },
   "overrides": {
     "playwright": "^1.60.0",
