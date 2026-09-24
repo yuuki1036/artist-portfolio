@@ -80,6 +80,10 @@ function PaymentFormInner({
   const [shippingFeeJpy, setShippingFeeJpy] = useState(initialShippingFeeJpy);
   const [totalJpy, setTotalJpy] = useState(initialTotalJpy);
   const [country, setCountry] = useState(initialCountry);
+  // LinkAuthenticationElement の入力は PaymentIntent に自動では載らない
+  // （自動で渡るのは AddressElement の shipping だけ）。confirm 時に receipt_email として
+  // 明示的に渡し、Webhook が pi.receipt_email から Order.customerEmail を埋められるようにする。
+  const [email, setEmail] = useState("");
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
@@ -121,6 +125,7 @@ function PaymentFormInner({
       clientSecret,
       confirmParams: {
         return_url: `${window.location.origin}/${locale}/checkout/success/${orderId}`,
+        ...(email ? { receipt_email: email } : {}),
       },
     });
 
@@ -144,7 +149,9 @@ function PaymentFormInner({
         <h2 className="text-lg font-black text-text-primary">
           {translations.addressHeading}
         </h2>
-        <LinkAuthenticationElement />
+        <LinkAuthenticationElement
+          onChange={(event) => setEmail(event.value.email)}
+        />
         <AddressElement
           options={{
             mode: "shipping",
