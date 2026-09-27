@@ -32,7 +32,10 @@ export async function POST(request: Request) {
     case "payment_intent.succeeded":
       await handlePaymentSucceeded(event.data.object);
       break;
-    case "payment_intent.payment_failed":
+    // payment_intent.payment_failed では解放しない。決済失敗後の PI は
+    // requires_payment_method に戻り、同じ PI で再試行できる。ここで解放すると
+    // 再試行が成功しても Order が CANCELED のまま課金だけ残る。
+    // 払われずに放置された PI は TTL cron が cancel し、canceled イベントで解放される。
     case "payment_intent.canceled":
       await handlePaymentReleased(event.data.object);
       break;
@@ -47,7 +50,18 @@ async function handlePaymentSucceeded(pi: Stripe.PaymentIntent) {
   const order = await prisma.order.findUnique({
     where: { stripePaymentIntentId: pi.id },
   });
-  if (!order || order.status !== "PENDING") {
+  if (!order) {
+    return;
+  }
+  if (order.status === "CANCELED") {
+    // 解放済みの注文に課金が届いた。解放経路は PI が canceled のときに限っているので
+    // 通常は起きないが、起きた場合は自動では直せないため返金判断用に残す。
+    console.error(
+      `[webhook] payment succeeded for CANCELED order ${order.id} (PI ${pi.id}); manual refund required`,
+    );
+    return;
+  }
+  if (order.status !== "PENDING") {
     return;
   }
 

@@ -1,7 +1,8 @@
 import { prisma } from "@/lib/prisma";
 
 // PENDING Order を CANCELED にし、在庫を復元する atomic 処理。
-// Webhook (payment_intent.payment_failed / canceled) と TTL cron の両方から呼ばれる。
+// Webhook (payment_intent.canceled) と TTL cron の両方から呼ばれる。
+// 呼び出し側は PI がもう決済できない（canceled）と確定してから呼ぶこと。
 // 戻り値: 実際に CANCELED にしたら true、既に CANCELED 等で何もしなかったら false（冪等）。
 // findUnique も transaction 内に閉じて TOCTOU を排除する。
 export async function releasePendingOrder(orderId: string): Promise<boolean> {

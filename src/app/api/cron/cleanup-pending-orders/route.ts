@@ -32,8 +32,10 @@ export async function GET(request: Request) {
   let released = 0;
 
   for (const order of staleOrders) {
-    // 支払い完了直後に cron が起動し Webhook より先に PI を CANCELED にしてしまう race を防ぐ。
-    // cancel が失敗したら PI の現在状態を retrieve し、succeeded/processing なら一切触らない。
+    // 在庫を返してよいのは PI がもう決済できない（canceled）と確定したときだけ。
+    // cancel が一時障害で落ちた PI は requires_payment_method 等のまま決済可能で、
+    // ここで解放すると後から succeeded が届いても Order は PENDING でなく PAID にできない
+    // （課金済みなのに注文は CANCELED・在庫も返却済みになる）。確定できなければ次回に回す。
     let shouldRelease = true;
     try {
       await stripe.paymentIntents.cancel(order.stripePaymentIntentId);
@@ -50,7 +52,7 @@ export async function GET(request: Request) {
       const pi = await stripe.paymentIntents
         .retrieve(order.stripePaymentIntentId)
         .catch(() => null);
-      if (!pi || pi.status === "succeeded" || pi.status === "processing") {
+      if (pi?.status !== "canceled") {
         shouldRelease = false;
       }
     }
