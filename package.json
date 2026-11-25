@@ -53,6 +53,9 @@
     "vitest": "^5.1.0"
   },
   "overrides": {
+    "@prisma/config": {
+      "effect": "^3.22.1"
+    },
     "glob@>=9.0.0 <14.0.2": "^14.0.3"
   },
   "engines": {
