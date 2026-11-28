@@ -43,7 +43,7 @@
     "@typescript/native-preview": "^7.0.0-dev.20260320.1",
     "@vitest/browser-playwright": "^5.1.0",
     "dotenv": "^17.4.0",
-    "oxfmt": "^0.79.0",
+    "oxfmt": "^0.80.0",
     "oxlint": "^1.95.0",
     "playwright": "^1.65.0",
     "postcss": "^8",
